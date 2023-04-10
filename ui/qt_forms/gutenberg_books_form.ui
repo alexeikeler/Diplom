@@ -23,6 +23,27 @@
     </rect>
    </property>
    <layout class="QGridLayout" name="master_grid_layout">
+    <item row="0" column="2">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item alignment="Qt::AlignHCenter">
+       <widget class="QLabel" name="available_books_label">
+        <property name="text">
+         <string>Available books</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTableWidget" name="books_table">
+        <property name="maximumSize">
+         <size>
+          <width>1525</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
     <item row="0" column="1">
      <widget class="QGroupBox" name="search_settings_group_box">
       <property name="sizePolicy">
@@ -44,7 +65,7 @@
        </size>
       </property>
       <property name="title">
-       <string>Search</string>
+       <string>Search </string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -52,13 +73,46 @@
       <widget class="QWidget" name="gridLayoutWidget_2">
        <property name="geometry">
         <rect>
-         <x>8</x>
-         <y>32</y>
-         <width>334</width>
-         <height>191</height>
+         <x>11</x>
+         <y>27</y>
+         <width>331</width>
+         <height>501</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="search_fields_grid_layout">
+        <item row="8" column="0">
+         <widget class="QLabel" name="limit_label">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Limit: 50</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="0" alignment="Qt::AlignHCenter">
+         <widget class="QPushButton" name="search_button">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::RightToLeft</enum>
+          </property>
+          <property name="text">
+           <string>OK  </string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>../images/check_mark.png</normaloff>../images/check_mark.png</iconset>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
          <widget class="QLabel" name="title_label">
           <property name="text">
@@ -66,15 +120,8 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QLineEdit" name="title_line_edit"/>
-        </item>
-        <item row="4" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-         <widget class="QLabel" name="subject_label">
-          <property name="text">
-           <string>Subject</string>
-          </property>
-         </widget>
+        <item row="3" column="0">
+         <widget class="QLineEdit" name="authors_line_edit"/>
         </item>
         <item row="2" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
          <widget class="QLabel" name="authors_label">
@@ -83,209 +130,216 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QLineEdit" name="authors_line_edit"/>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLineEdit" name="subject_line_edit"/>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="verticalLayoutWidget">
-       <property name="geometry">
-        <rect>
-         <x>9</x>
-         <y>579</y>
-         <width>332</width>
-         <height>321</height>
-        </rect>
-       </property>
-       <layout class="QVBoxLayout" name="tags_vbox_layout">
-        <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-         <widget class="QLabel" name="tags_label">
-          <property name="text">
-           <string>Text tags</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QTextEdit" name="tags_text_edit"/>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="gridLayoutWidget_3">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>240</y>
-         <width>331</width>
-         <height>226</height>
-        </rect>
-       </property>
-       <layout class="QGridLayout" name="gridLayout_3">
-        <item row="1" column="1" alignment="Qt::AlignHCenter">
-         <widget class="QLabel" name="time_period_end_label">
-          <property name="text">
-           <string>End</string>
-          </property>
-         </widget>
+        <item row="6" column="0">
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="4" column="0">
+           <widget class="QLabel" name="time_period_label">
+            <property name="text">
+             <string>Issue time period</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>8</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item alignment="Qt::AlignHCenter">
+             <widget class="QCheckBox" name="ru_check_box">
+              <property name="text">
+               <string>ru</string>
+              </property>
+             </widget>
+            </item>
+            <item alignment="Qt::AlignHCenter">
+             <widget class="QCheckBox" name="en_check_box">
+              <property name="text">
+               <string>en</string>
+              </property>
+             </widget>
+            </item>
+            <item alignment="Qt::AlignHCenter">
+             <widget class="QCheckBox" name="ge_check_box">
+              <property name="text">
+               <string>ge</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="5" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QDateEdit" name="l_date_edit">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="maximumDate">
+               <date>
+                <year>2024</year>
+                <month>12</month>
+                <day>31</day>
+               </date>
+              </property>
+              <property name="minimumDate">
+               <date>
+                <year>1970</year>
+                <month>1</month>
+                <day>1</day>
+               </date>
+              </property>
+              <property name="displayFormat">
+               <string>yyyy-MM-dd</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDateEdit" name="r_date_edit">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="maximumDate">
+               <date>
+                <year>2024</year>
+                <month>12</month>
+                <day>31</day>
+               </date>
+              </property>
+              <property name="minimumDate">
+               <date>
+                <year>1970</year>
+                <month>1</month>
+                <day>1</day>
+               </date>
+              </property>
+              <property name="displayFormat">
+               <string>yyyy-MM-dd</string>
+              </property>
+              <property name="date">
+               <date>
+                <year>1972</year>
+                <month>1</month>
+                <day>2</day>
+               </date>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="language_label">
+            <property name="text">
+             <string>Language</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item row="4" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-         <widget class="QCheckBox" name="english_check_box">
+         <widget class="QLabel" name="subject_label">
           <property name="text">
-           <string>en</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0" alignment="Qt::AlignHCenter">
-         <widget class="QCheckBox" name="russian_check_box">
-          <property name="text">
-           <string>ru</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1" alignment="Qt::AlignHCenter">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>2072</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="1" alignment="Qt::AlignHCenter">
-         <widget class="QLabel" name="label_3">
-          <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
-          </property>
-          <property name="text">
-           <string>5</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0" colspan="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-         <widget class="QLabel" name="time_period_label">
-          <property name="text">
-           <string>Time period</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1" alignment="Qt::AlignHCenter">
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>Available</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QDateEdit" name="dateEdit">
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-          <property name="maximumDate">
-           <date>
-            <year>2023</year>
-            <month>12</month>
-            <day>31</day>
-           </date>
-          </property>
-          <property name="minimumDate">
-           <date>
-            <year>1971</year>
-            <month>1</month>
-            <day>1</day>
-           </date>
-          </property>
-          <property name="displayFormat">
-           <string>yyyy-mm-dd</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0" alignment="Qt::AlignHCenter">
-         <widget class="QLabel" name="s">
-          <property name="text">
-           <string>Start</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>55389</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QDateEdit" name="dateEdit_2">
-          <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-          <property name="maximumDate">
-           <date>
-            <year>2023</year>
-            <month>12</month>
-            <day>31</day>
-           </date>
-          </property>
-          <property name="minimumDate">
-           <date>
-            <year>1971</year>
-            <month>1</month>
-            <day>1</day>
-           </date>
-          </property>
-          <property name="displayFormat">
-           <string>yyyy-mm-dd</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="0" colspan="2">
-         <widget class="QPushButton" name="search_button">
-          <property name="text">
-           <string>Search</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0" alignment="Qt::AlignHCenter">
-         <widget class="QLabel" name="label_8">
-          <property name="text">
-           <string>Language</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0" alignment="Qt::AlignHCenter">
-         <widget class="QCheckBox" name="checkBox">
-          <property name="text">
-           <string>ge</string>
+           <string>Subject</string>
           </property>
          </widget>
         </item>
         <item row="7" column="0">
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
+         <widget class="QLabel" name="label_2">
+          <property name="maximumSize">
            <size>
-            <width>20</width>
-            <height>80</height>
+            <width>16777215</width>
+            <height>8</height>
            </size>
           </property>
-         </spacer>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLineEdit" name="subject_line_edit">
+          <property name="toolTip">
+           <string>Text subjects should be separated by space.</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLineEdit" name="title_line_edit"/>
+        </item>
+        <item row="9" column="0">
+         <widget class="QSlider" name="limit_slider">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>1000</number>
+          </property>
+          <property name="value">
+           <number>50</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="tickPosition">
+           <enum>QSlider::TicksBelow</enum>
+          </property>
+          <property name="tickInterval">
+           <number>100</number>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
       <widget class="QWidget" name="gridLayoutWidget_4">
        <property name="geometry">
         <rect>
-         <x>11</x>
-         <y>480</y>
-         <width>330</width>
-         <height>80</height>
+         <x>8</x>
+         <y>840</y>
+         <width>331</width>
+         <height>61</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout">
@@ -321,16 +375,6 @@
         </item>
        </layout>
       </widget>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="QGroupBox" name="books_table_group_box">
-      <property name="title">
-       <string>Available books</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
      </widget>
     </item>
    </layout>
