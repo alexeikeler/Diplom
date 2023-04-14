@@ -10,6 +10,7 @@ def main() -> None:
     application_form.show()
     sys.exit(application.exec_())
 
+    # Comment # 1
 
 if __name__ == "__main__":
     main()
