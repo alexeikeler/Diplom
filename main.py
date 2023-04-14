@@ -1,6 +1,6 @@
 import sys
 from PyQt5 import QtWidgets
-
+from googletrans import Translator
 from src.forms_code.main_form import MainForm
 
 
