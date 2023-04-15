@@ -1,6 +1,7 @@
 from PyQt5 import uic
 
 from src.forms_code.gutenberg_books_form import GutenbergBooksForm
+from src.forms_code.corpus_form import CorpusForm
 from config.settings import Path, Titles
 
 
@@ -15,3 +16,5 @@ class MainForm(main_form, main_base):
         self.setupUi(self)
 
         self.tab_widget.addTab(GutenbergBooksForm(), Titles.GUTEBERG_BOOKS_TAB_TITLE)
+        self.tab_widget.addTab(CorpusForm(), Titles.CORPUS_SETTINGS_TAB_TITLE)
+

@@ -6,6 +6,7 @@ from PyQt5.QtCore import QDate
 @dataclass
 class Titles:
     GUTEBERG_BOOKS_TAB_TITLE: str = "Books"
+    CORPUS_SETTINGS_TAB_TITLE: str = "Corpus settings"
     BOOKS_TABLE_COLUMNS: Tuple[str] = (
         "Download", 
         "Tags",
@@ -15,12 +16,17 @@ class Titles:
         "Authors", 
         "Title"
         )
+    BOOK_ID_COL: int = 2
+    TAGS_COL: int = 1
 
 @dataclass
 class Path:
     MAIN_FORM_UI_PATH: str = "ui/qt_forms/main_form.ui"
     GUTENBERG_BOOKS_UI_PATH: str = "ui/qt_forms/gutenberg_books_form.ui"
-
+    CORPUS_UI_PATH: str = "ui/qt_forms/corpus_form.ui"
+    DATASET_PATH: str = "texts/dataset/{0}"
+    USER_BOOKS: str = "texts/user_books/{0}"
+    
 @dataclass
 class Images:
     X_BTN_SIZE: int = 32
@@ -38,5 +44,4 @@ class Constants:
     IDS_REGEX: int = "[1-9][0-9]*"
     ANY: str = "%"
     CURRENT_L_DATE: QDate = QDate(1971, 12, 1)
-    CURRENT_R_DATE: QDate = QDate(2023, 4, 1)
-    
+    CURRENT_R_DATE: QDate = QDate(2023, 4, 1)   

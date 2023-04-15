@@ -1,13 +1,15 @@
+import gutenbergpy.textget
+import gzip
 import pandas as pd
 
 from PyQt5 import QtWidgets, QtGui, QtCore, uic
 from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
-from tabulate import tabulate
-
 
 from src.custom_functionality import qt_widgets_functions
 from src.custom_functionality import message_boxes as msg
+from src.words_analysis.dataset_creater import BooksDownloader
+
 from postgres_db import postgres_database
 from config.settings import Path, Titles, Images, Constants
 
@@ -35,6 +37,8 @@ class GutenbergBooksForm(gb_form, gb_base):
 
         self.l_date_edit.setDate(Constants.CURRENT_L_DATE)
         self.r_date_edit.setDate(Constants.CURRENT_R_DATE)
+#        self.table.cellClicked.connect(self.cell_was_clicked)
+ #       self.books_table.cellClicked.connect(self.cell_clicked)
 
     def _on_limit_slider_value_changed(self, value: int) -> None:
         self.limit_label.setText(f"Limit: {value}")
@@ -83,8 +87,6 @@ class GutenbergBooksForm(gb_form, gb_base):
         return "(" + "".join([f"{lng}|" for lng, val in languages.items() if val])[:-1] + ")"
 
 
-
-
     def load_data(self, data: pd.DataFrame) -> None:
         
         self.books_table.clear()
@@ -111,31 +113,33 @@ class GutenbergBooksForm(gb_form, gb_base):
             download_button = QtWidgets.QPushButton("")
             download_button.setIcon(QtGui.QIcon(Images.DOWNLOAD_ICON))
             download_button.setIconSize(QtCore.QSize(Images.X_IMG_SIZE, Images.Y_IMG_SIZE))        
-            download_button.setMaximumSize(Images.X_BTN_SIZE, Images.Y_BTN_SIZE)    
+           # download_button.setMaximumSize(Images.X_BTN_SIZE, Images.Y_BTN_SIZE)    
+            download_button.clicked.connect(self.download_button_clicked)
 
-            download_lay = QtWidgets.QHBoxLayout()
-            download_lay.addWidget(download_button)
-            download_lay.setAlignment(QtCore.Qt.AlignCenter)
-            download_lay.setContentsMargins(0, 0, 0, 0)
 
-            download_widget = QtWidgets.QWidget()
-            download_widget.setLayout(download_lay)
+            #download_lay = QtWidgets.QHBoxLayout()
+            #download_lay.addWidget(download_button)
+            #download_lay.setAlignment(QtCore.Qt.AlignCenter)
+            #download_lay.setContentsMargins(0, 0, 0, 0)
+
+            #download_widget = QtWidgets.QWidget()
+            #download_widget.setLayout(download_lay)
 
             tags_button = QtWidgets.QPushButton("")
             tags_button.setIcon(QtGui.QIcon(Images.INFO_ICON))
             tags_button.setIconSize(QtCore.QSize(Images.X_IMG_SIZE, Images.Y_IMG_SIZE))            
-            tags_button.setMaximumSize(Images.X_BTN_SIZE, Images.Y_BTN_SIZE)
+            #tags_button.setMaximumSize(Images.X_BTN_SIZE, Images.Y_BTN_SIZE)
 
-            tags_lay = QtWidgets.QHBoxLayout()
-            tags_lay.addWidget(tags_button)
-            tags_lay.setAlignment(QtCore.Qt.AlignCenter)
-            tags_lay.setContentsMargins(0, 0, 0, 0)
-            tags_widget = QtWidgets.QWidget()
-            tags_widget.setLayout(tags_lay)
+            #tags_lay = QtWidgets.QHBoxLayout()
+            #tags_lay.addWidget(tags_button)
+            #tags_lay.setAlignment(QtCore.Qt.AlignCenter)
+            #tags_lay.setContentsMargins(0, 0, 0, 0)
+            #tags_widget = QtWidgets.QWidget()
+            #tags_widget.setLayout(tags_lay)
 
 
-            self.books_table.setCellWidget(i, 0, download_widget)
-            self.books_table.setCellWidget(i, 1, tags_widget)
+            self.books_table.setCellWidget(i, 0, download_button)
+            self.books_table.setCellWidget(i, 1, tags_button)
 
             for j in range(2, cols):
                 item = QtWidgets.QTableWidgetItem(str(data.loc[i][j]))
@@ -165,19 +169,6 @@ class GutenbergBooksForm(gb_form, gb_base):
             lim
         )
 
-
-
-        print(
-                        text_author,
-            text_title,
-            text_languages,
-            text_subject,
-            l_date,
-            r_date,
-            lim
-        )
-
-
         data = pd.DataFrame(data, columns=Titles.BOOKS_TABLE_COLUMNS[1:])
         data.insert(0, Titles.BOOKS_TABLE_COLUMNS[0], None)
 
@@ -204,3 +195,14 @@ class GutenbergBooksForm(gb_form, gb_base):
         data.insert(0, Titles.BOOKS_TABLE_COLUMNS[0], None)
 
         self.load_data(data)
+
+    def download_button_clicked(self):
+        
+        book_id = int(
+            self.books_table.item(
+                self.books_table.currentRow(), 
+                Titles.BOOK_ID_COL
+            ).text()
+        )
+
+        BooksDownloader.download_books([book_id], Path.USER_BOOKS)
