@@ -13,59 +13,205 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="update_dataset_button">
+  <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>11</y>
-     <width>121</width>
+     <y>10</y>
+     <width>721</width>
+     <height>551</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="6" column="0">
+     <widget class="QCheckBox" name="remove_non_alphabet">
+      <property name="text">
+       <string>Remove non alphabetic characters</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QCheckBox" name="apply_lowercase_check_box">
+      <property name="text">
+       <string>Apply lowercase</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QCheckBox" name="lemmantizer_check_box">
+      <property name="text">
+       <string>Lemmantizer</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="logger_label">
+      <property name="text">
+       <string>Logger</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QSpinBox" name="top_n_spin_box">
+        <property name="maximumSize">
+         <size>
+          <width>80</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="value">
+         <number>50</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="show_files_button">
+        <property name="text">
+         <string>Show files</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../../../.designer/images/login_form_book2.png</normaloff>../../../.designer/images/login_form_book2.png</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="4" column="0">
+     <widget class="QCheckBox" name="remove_punct_check_box">
+      <property name="text">
+       <string>Remove punctuation</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="0">
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="cores_spin_box">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>16</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="text_batch_size_spin_box">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="parallel_check_box">
+        <property name="text">
+         <string>Parallel computation</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="text_batch_size_label">
+        <property name="text">
+         <string>Text batch size</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="computational_settings_label">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Computational settings</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="5" column="0">
+     <widget class="QCheckBox" name="remove_stop_words_check_box">
+      <property name="text">
+       <string>Remove stop words</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0">
+     <widget class="QComboBox" name="models_check_box"/>
+    </item>
+    <item row="0" column="0" alignment="Qt::AlignLeft">
+     <widget class="QLabel" name="label_2">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Corpus size</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" rowspan="11">
+     <widget class="QTextEdit" name="text_edit"/>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="label">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Spacy model</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="0">
+     <widget class="QPushButton" name="create_corpus_button">
+      <property name="text">
+       <string>Create corpus</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="spacy_settings_label">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Spacy settings</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QPushButton" name="gen_tfidf_button">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>20</y>
+     <width>181</width>
      <height>32</height>
     </rect>
    </property>
    <property name="text">
-    <string>Create corpus</string>
-   </property>
-  </widget>
-  <widget class="QSpinBox" name="top_n_spin_box">
-   <property name="geometry">
-    <rect>
-     <x>230</x>
-     <y>12</y>
-     <width>63</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="minimum">
-    <number>1</number>
-   </property>
-   <property name="maximum">
-    <number>100</number>
-   </property>
-   <property name="value">
-    <number>50</number>
-   </property>
-  </widget>
-  <widget class="QProgressBar" name="progress_bar">
-   <property name="geometry">
-    <rect>
-     <x>310</x>
-     <y>480</y>
-     <width>781</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="value">
-    <number>24</number>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="text_edit">
-   <property name="geometry">
-    <rect>
-     <x>320</x>
-     <y>20</y>
-     <width>761</width>
-     <height>441</height>
-    </rect>
+    <string>Generate TF-IDF matrix</string>
    </property>
   </widget>
  </widget>

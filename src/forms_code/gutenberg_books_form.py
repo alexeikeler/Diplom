@@ -205,4 +205,4 @@ class GutenbergBooksForm(gb_form, gb_base):
             ).text()
         )
 
-        BooksDownloader.download_books([book_id], Path.USER_BOOKS)
+        BooksDownloader.download_book(book_id, Path.USER_BOOKS)
