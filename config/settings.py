@@ -36,7 +36,6 @@ class Path:
     EXISTING_BOOKS = frozenset(glob.glob(f"{DATASET_PATH.format('')}/*.txt"))
     EXISTING_TITLES = frozenset([PythonPath(text).stem for text in EXISTING_BOOKS]) 
 
-
 @dataclass
 class Images:
     X_BTN_SIZE: int = 32
@@ -59,3 +58,12 @@ class Constants:
     CORES: int = mp.cpu_count()
     BATCH_SIZE: int = 3
     GUTENBERG_TOP_30_BOOKS: str = "https://www.gutenberg.org/browse/scores/top#books-last30"
+
+    LANGUAGES: tuple = ("en", "ru")
+    TRANSLATION_METHODS = {
+        "googletrans": "https://pypi.org/project/googletrans/",
+        "argotranslate": "https://github.com/argosopentech/argos-translate",
+        "fairseq": "https://github.com/facebookresearch/fairseq#pre-trained-models-and-examples"
+    }
+    
+    SPLIT_METHODS: tuple = ("by paragraph", "by sentence")

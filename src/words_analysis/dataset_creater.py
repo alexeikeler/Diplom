@@ -126,7 +126,7 @@ class TextPreprocessor:
         self.to_lowercase = to_lowercase
         self.n_jobs = n_jobs
         
-        self.nlp = spacy.load(model, disable=["tok2vec", "parser", "ner"])
+        self.nlp = spacy.load(model)
         
     def _preprocess_part(self, part):
         return part.apply(self._preprocess_text)
