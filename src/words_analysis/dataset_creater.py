@@ -11,7 +11,6 @@ import gutenbergpy.textget
 import requests
 import spacy
 from bs4 import BeautifulSoup
-from sklearn.base import BaseEstimator, TransformerMixin
 from PyQt5 import QtCore
 
 from config.settings import Path, Constants

@@ -7,7 +7,6 @@ from PyQt5.QtCore import QDate
 from pathlib import Path as PythonPath
 
 
-
 @dataclass
 class Titles:
     GUTEBERG_BOOKS_TAB_TITLE: str = "Books"
@@ -24,6 +23,7 @@ class Titles:
     BOOK_ID_COL: int = 2
     TAGS_COL: int = 1
 
+
 @dataclass
 class Path:
     MAIN_FORM_UI_PATH: str = "ui/qt_forms/main_form.ui"
@@ -32,9 +32,12 @@ class Path:
     DATASET_PATH: str = "texts/dataset/{0}"
     USER_BOOKS: str = "texts/user_books/{0}"
 
-    
+    CEFR_DS_PATH: str = "texts/csv_data/full_cefr_dataset.csv"
+    EFLLEX_DS_PATH: str = "texts/csv_data/efllex_dataset.csv"
+
     EXISTING_BOOKS = frozenset(glob.glob(f"{DATASET_PATH.format('')}/*.txt"))
     EXISTING_TITLES = frozenset([PythonPath(text).stem for text in EXISTING_BOOKS]) 
+
 
 @dataclass
 class Images:
@@ -67,3 +70,13 @@ class Constants:
     }
     
     SPLIT_METHODS: tuple = ("by paragraph", "by sentence")
+
+    KEY_WORD_EXTRACTION_METHODS = {
+        "CEFR and EFLLex": "cefr_and_efllex_levels_tab",
+        "TF-IDF and s2v": "tfidf_and_s2v_tab",
+        "RAKE": "rake_tab"
+    }
+
+    TEXT_BATCH_SIZE: int = 32768 # 2**15
+    END_PUNCT: tuple = ("! ", "? ", ". ", "... ", "?", "!", "...", ".")
+

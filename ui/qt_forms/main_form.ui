@@ -38,8 +38,8 @@
           <rect>
            <x>10</x>
            <y>60</y>
-           <width>381</width>
-           <height>121</height>
+           <width>351</width>
+           <height>91</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="translation_grid_layout">
@@ -126,9 +126,9 @@
          <property name="geometry">
           <rect>
            <x>8</x>
-           <y>355</y>
+           <y>464</y>
            <width>491</width>
-           <height>581</height>
+           <height>294</height>
           </rect>
          </property>
         </widget>
@@ -136,8 +136,8 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>210</y>
-           <width>291</width>
+           <y>785</y>
+           <width>487</width>
            <height>58</height>
           </rect>
          </property>
@@ -178,8 +178,8 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>280</y>
-           <width>291</width>
+           <y>875</y>
+           <width>491</width>
            <height>58</height>
           </rect>
          </property>
@@ -241,7 +241,7 @@
          <property name="geometry">
           <rect>
            <x>-11</x>
-           <y>196</y>
+           <y>188</y>
            <width>521</width>
            <height>21</height>
           </rect>
@@ -254,7 +254,7 @@
          <property name="geometry">
           <rect>
            <x>-11</x>
-           <y>337</y>
+           <y>440</y>
            <width>521</width>
            <height>21</height>
           </rect>
@@ -355,22 +355,19 @@
         <widget class="QWidget" name="verticalLayoutWidget">
          <property name="geometry">
           <rect>
-           <x>523</x>
-           <y>15</y>
-           <width>1361</width>
-           <height>921</height>
+           <x>526</x>
+           <y>9</y>
+           <width>1357</width>
+           <height>926</height>
           </rect>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout">
+         <layout class="QVBoxLayout" name="text_output_layout">
           <item alignment="Qt::AlignHCenter">
            <widget class="QLabel" name="label">
             <property name="text">
              <string>Text preview</string>
             </property>
            </widget>
-          </item>
-          <item>
-           <widget class="QPlainTextEdit" name="preview_plain_text_edit"/>
           </item>
           <item alignment="Qt::AlignHCenter">
            <widget class="QLabel" name="label_2">
@@ -390,6 +387,162 @@
            </widget>
           </item>
          </layout>
+        </widget>
+        <widget class="QWidget" name="gridLayoutWidget_7">
+         <property name="geometry">
+          <rect>
+           <x>8</x>
+           <y>211</y>
+           <width>190</width>
+           <height>54</height>
+          </rect>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_6">
+          <item row="1" column="0" alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="key_word_extr_label">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Key word extraction method</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QComboBox" name="key_word_extr_combo_box">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>32</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="Line" name="line_4">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>761</y>
+           <width>511</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QTabWidget" name="key_word_extr_tab_widget">
+         <property name="geometry">
+          <rect>
+           <x>8</x>
+           <y>290</y>
+           <width>491</width>
+           <height>141</height>
+          </rect>
+         </property>
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="cefr_and_efllex_levels_tab">
+          <attribute name="title">
+           <string>CEFR and EFLLex</string>
+          </attribute>
+          <widget class="QWidget" name="horizontalLayoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>10</y>
+             <width>330</width>
+             <height>28</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="cefr_layout">
+            <item>
+             <widget class="QCheckBox" name="A1">
+              <property name="text">
+               <string>A1</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="A2">
+              <property name="text">
+               <string>A2</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="B1">
+              <property name="text">
+               <string>B1</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="B2">
+              <property name="text">
+               <string>B2</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="C1">
+              <property name="text">
+               <string>C1</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="C2">
+              <property name="text">
+               <string>C2</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QPushButton" name="confirm_cerf_and_efllex_button">
+           <property name="geometry">
+            <rect>
+             <x>401</x>
+             <y>60</y>
+             <width>84</width>
+             <height>32</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Confirm</string>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="tfidf_and_s2v_tab">
+          <attribute name="title">
+           <string>TF-IDF and s2v</string>
+          </attribute>
+         </widget>
+         <widget class="QWidget" name="rake_tab">
+          <attribute name="title">
+           <string>RAKE</string>
+          </attribute>
+         </widget>
+        </widget>
+        <widget class="Line" name="line_6">
+         <property name="geometry">
+          <rect>
+           <x>-10</x>
+           <y>858</y>
+           <width>521</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
         </widget>
        </widget>
       </widget>
