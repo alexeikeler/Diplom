@@ -12,3 +12,6 @@ class SmartPlainTextEdit(QPlainTextEdit):
                 print(cursor.selectedText())
                 return
         return super().keyPressEvent(event)
+    11
+    1
+    1
