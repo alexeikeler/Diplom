@@ -65,7 +65,6 @@ class Constants:
     LANGUAGES: tuple = ("en", "ru")
     TRANSLATION_METHODS = {
         "googletrans": "https://pypi.org/project/googletrans/",
-        "argotranslate": "https://github.com/argosopentech/argos-translate",
         "fairseq": "https://github.com/facebookresearch/fairseq#pre-trained-models-and-examples"
     }
     

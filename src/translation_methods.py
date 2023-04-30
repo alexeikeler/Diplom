@@ -7,8 +7,9 @@ import pandas as pd
 from PyQt5 import QtCore
 
 from googletrans import Translator
-from argostranslate import translate as argo_translate
+#from argostranslate import translate as argo_translate
 
+from postgres_db.postgres_database import Database
 from config.settings import Path, Constants
 
 
@@ -26,8 +27,6 @@ class Translators:
         match self._tr_method:
             case "googletrans":
                 return self._google_translator.translate(txt, src=self._src_lang, dest=self._dest_lang).text
-            case "argotranslate":
-                return argo_translate.translate(txt, from_code=self._src_lang, to_code=self._dest_lang)
             case "fairseq":
                 return self._fairseq_model.translate(txt, verbose=False)
                 
@@ -35,24 +34,11 @@ class Translators:
 
 class CefrAndEfllexMethod:
 
-    __slots__ = ["cefr_table", "efllex_table", "nlp"]
+    __slots__ = ["database", "nlp"]
 
     def __init__(self):
+        self.database = Database.instance()
         self.nlp = spacy.load("en_core_web_lg")
-        self.cefr_table = pd.read_csv(Path.CEFR_DS_PATH, index_col=0)
-        self.efllex_table = pd.read_csv(Path.EFLLEX_DS_PATH, index_col=0)
-
-    def _get_cefr_level(self, word_, pos_) -> str | None:
-        level = self.cefr_table[(self.cefr_table.word == word_) & (self.cefr_table.pos == pos_)]
-        if level.empty:
-            return None
-        return level.cefr.item()
-    
-    def _get_efllex_level(self, word_, tag_) -> str | None:
-        row = self.efllex_table[(self.efllex_table.word == word_) & (self.efllex_table.tag == tag_)]
-        if row.empty:
-            return None
-        return row.iloc[:,2:].apply(lambda x: x.iloc[x.values.nonzero()[0]], axis=1).columns[0][-2:].upper()
     
     def _preprocess(self, file) -> str:
 
@@ -65,7 +51,7 @@ class CefrAndEfllexMethod:
         return doc
 
 
-    def translate(self, translators, file, levels, out_file_name, logger, batch_size=Constants.TEXT_BATCH_SIZE):
+    def translate(self, translators, file, levels, out_file_name, logger, batch_size=128):
         logger.appendPlainText(f"Preprocessing file {file}...")
         QtCore.QCoreApplication.processEvents()
 
@@ -97,15 +83,15 @@ class CefrAndEfllexMethod:
 
                 if not (c_t.is_punct or c_t.is_stop):
                     
-                    word_level = self._get_cefr_level(c_t.lemma_, spacy.explain(c_t.pos_)) or self._get_efllex_level(c_t.lemma_, c_t.tag_)
-                    
+                    word_level = self.database.get_cefr_level(c_t.lemma_, spacy.explain(c_t.pos_), c_t.tag_)
+
                     # If word is not in selected levels set to None
                     if word_level not in levels: 
                         word_level = None
                     else:
-                        tr_word = translators.translate_text(c_t.lemma_)
+                        tr_word = translators.translate_text(c_t.text)
 
-                    text = f"{c_t.text} ({c_t.lemma_} - {tr_word}){str_end}" if word_level is not None else c_t.text + str_end
+                    text = f"{c_t.text} [{c_t.text} - {tr_word}]{str_end}" if word_level is not None else c_t.text + str_end
                     size += len(text)
                     parts.append(text)
                 

@@ -1,12 +1,50 @@
 import psycopg2 as pc2
+import psycopg2.extras
 from configparser import ConfigParser
 from datetime import datetime
 
 from src.custom_functionality import message_boxes as msg
 
 
-class Database:
+class Singleton:
+    """
+    A non-thread-safe helper class to ease implementing singletons.
+    This should be used as a decorator -- not a metaclass -- to the
+    class that should be a singleton.
 
+    The decorated class can define one `__init__` function that
+    takes only the `self` argument. Also, the decorated class cannot be
+    inherited from. Other than that, there are no restrictions that apply
+    to the decorated class.
+
+    To get the singleton instance, use the `instance` method. Trying
+    to use `__call__` will result in a `TypeError` being raised.
+
+    """
+
+    def __init__(self, decorated):
+        self._decorated = decorated
+
+    def instance(self):
+        """
+        Returns the singleton instance. Upon its first call, it creates a
+        new instance of the decorated class and calls its `__init__` method.
+        On all subsequent calls, the already created instance is returned.
+
+        """
+        try:
+            return self._instance
+        except AttributeError:
+            self._instance = self._decorated()
+            return self._instance
+
+    def __call__(self):
+        raise TypeError('Singletons must be accessed through `instance()`.')
+
+
+@Singleton
+class Database:
+    __slots__ = ["_config_file_path", "_config_section", "_connection"]
     def __init__(self):
         self._config_file_path: str = "postgres_db/postgres_user.ini"
         self._config_section: str = "postgresql"
@@ -17,7 +55,7 @@ class Database:
         parser = ConfigParser()
         # read config file
         parser.read(self._config_file_path)
-
+        
         # get section, default to postgresql
         config_data = dict()
 
@@ -41,14 +79,6 @@ class Database:
         except (Exception, pc2.DatabaseError) as error:
             msg.error_message(repr(error))
             self._connection.rollback()
-
-#   	recieved_text_author varchar,
-#	recieved_text_title varchar,
-#	recieved_text_language varchar,
-#	recieved_text_subject varchar,
-#	recieved_l_date date,
-#	recieved_r_date date,
-#	texts_limit int
 
     def get_texts(
         self, 
@@ -78,8 +108,30 @@ class Database:
                 result = crs.fetchall()
                 return result
 
-
         except (Exception, pc2.DatabaseError) as error:
             msg.error_message(repr(error))
             self._connection.rollback()
         
+    def get_cefr_level(self, word, pos, tag):
+        try:
+            with self._connection.cursor() as crs:
+                crs.callproc("get_cefr_level", (word, pos, tag))
+                result = crs.fetchone()
+                return result[0]
+        
+        except (Exception, pc2.DatabaseError) as error:
+            msg.error_message(repr(error))
+            self._connection.rollback()
+    
+    def get_word_frequencies(self, word, tag):
+        try:
+            with self._connection.cursor(cursor_factory=pc2.extras.RealDictCursor) as crs:
+                
+                crs.callproc("get_word_frequencies", (word, tag))
+                result = crs.fetchone()
+                return result
+        
+        except (Exception, pc2.DatabaseError) as error:
+            msg.error_message(repr(error))
+            self._connection.rollback()
+    

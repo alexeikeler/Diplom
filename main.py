@@ -1,16 +1,15 @@
 import sys
 from PyQt5 import QtWidgets
-from googletrans import Translator
 from src.forms_code.main_form import MainForm
 
 
 def main() -> None:
 
-    application = QtWidgets.QApplication(sys.argv)
-    application_form = MainForm()
-    application_form.show()
+   application = QtWidgets.QApplication(sys.argv)
+   application_form = MainForm()
+   application_form.show()
 
-    sys.exit(application.exec_())
+   sys.exit(application.exec_())
 
 
 if __name__ == "__main__":

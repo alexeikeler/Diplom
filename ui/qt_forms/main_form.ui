@@ -357,19 +357,19 @@
           <rect>
            <x>526</x>
            <y>9</y>
-           <width>1357</width>
-           <height>926</height>
+           <width>1351</width>
+           <height>921</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="text_output_layout">
-          <item alignment="Qt::AlignHCenter">
+          <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
            <widget class="QLabel" name="label">
             <property name="text">
              <string>Text preview</string>
             </property>
            </widget>
           </item>
-          <item alignment="Qt::AlignHCenter">
+          <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
            <widget class="QLabel" name="label_2">
             <property name="text">
              <string>Logger</string>
@@ -381,7 +381,7 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>256</height>
+              <height>128</height>
              </size>
             </property>
            </widget>
@@ -509,8 +509,8 @@
           <widget class="QPushButton" name="confirm_cerf_and_efllex_button">
            <property name="geometry">
             <rect>
-             <x>401</x>
-             <y>60</y>
+             <x>390</x>
+             <y>10</y>
              <width>84</width>
              <height>32</height>
             </rect>

@@ -1,4 +1,4 @@
-,word,tag,level_freq@a1,level_freq@a2,level_freq@b1,level_freq@b2,level_freq@c1,total_freq@total,nb_doc@a1,nb_doc@a2,nb_doc@b1,nb_doc@b2,nb_doc@c1,nb_doc@total
+,word,tag,level_freq@a1,level_freq@a2,level_freq@b1,level_freq@b2,level_freq@c1,total_freq@total,nb_doc@a1,nb_doc@a2,nb_doc@b1,nb_doc@b2,nb_doc@c1,nb_oc@total
 0,'50s,NN,0.0,0.5559,1.6375,0.0,0.8152,1.2813,0.0,1.0,1.0,0.0,1.0,3.0
 1,'60s,NN,0.0,1.1119,0.0,0.0,0.8152,0.874,0.0,1.0,0.0,0.0,1.0,2.0
 2,'70s,NN,0.0,1.1119,0.0,0.0,0.0,0.1625,0.0,1.0,0.0,0.0,0.0,1.0

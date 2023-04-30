@@ -26,9 +26,6 @@ class MainForm(main_form, main_base):
         self.preview_plain_text_edit = SmartPlainTextEdit()
         self.text_output_layout.insertWidget(1, self.preview_plain_text_edit)
 
-
-
-
         self.tab_widget.addTab(GutenbergBooksForm(), Titles.GUTEBERG_BOOKS_TAB_TITLE)
         self.tab_widget.addTab(CorpusForm(), Titles.CORPUS_SETTINGS_TAB_TITLE)
         
@@ -39,7 +36,6 @@ class MainForm(main_form, main_base):
         self.files_tree_view.setRootIndex(self.model.index(Path.USER_BOOKS.format("")))
         self.files_tree_view.setAlternatingRowColors(True)
         self.files_tree_view.setColumnWidth(0,300)
-        
         
         self.files_tree_view.doubleClicked.connect(self.show_selected_book)
 
