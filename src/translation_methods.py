@@ -3,7 +3,6 @@ logging.basicConfig(level=logging.WARNING)
 
 import torch
 import spacy
-import pandas as pd
 from PyQt5 import QtCore
 
 from googletrans import Translator

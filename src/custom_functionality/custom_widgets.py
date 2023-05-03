@@ -1,10 +1,6 @@
 from PyQt5 import QtGui
 from PyQt5.QtCore import QEvent, Qt
 from PyQt5.QtWidgets import QPlainTextEdit
-from matplotlib import pyplot as plt
-
-from postgres_db.postgres_database import Database
-
 
 
 class SmartPlainTextEdit(QPlainTextEdit):
