@@ -39,51 +39,11 @@
            <x>10</x>
            <y>60</y>
            <width>351</width>
-           <height>91</height>
+           <height>111</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="translation_grid_layout">
-          <item row="2" column="0">
-           <widget class="QComboBox" name="translation_method_combo_box">
-            <property name="maximumSize">
-             <size>
-              <width>256</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="sizeAdjustPolicy">
-             <enum>QComboBox::AdjustToMinimumContentsLength</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="translation_method_label">
-            <property name="text">
-             <string>Translation method   </string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QLabel" name="split_method_label">
-            <property name="text">
-             <string>Split method</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_3">
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>16</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
+          <item row="3" column="1">
            <widget class="QPushButton" name="translation_info_button">
             <property name="maximumSize">
              <size>
@@ -100,7 +60,40 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="3">
+          <item row="0" column="0">
+           <widget class="QLabel" name="space_label_1">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QComboBox" name="translation_method_combo_box">
+            <property name="maximumSize">
+             <size>
+              <width>256</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::AdjustToMinimumContentsLength</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="translation_method_label">
+            <property name="text">
+             <string>Translation method   </string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
            <widget class="QPushButton" name="split_info_button">
             <property name="maximumSize">
              <size>
@@ -113,12 +106,26 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../images/question_mark.png</normaloff>../images/question_mark.png</iconset>
+              <normaloff>../../../.designer/images/question_mark.png</normaloff>../../../.designer/images/question_mark.png</iconset>
             </property>
            </widget>
           </item>
-          <item row="2" column="2">
+          <item row="3" column="2">
            <widget class="QComboBox" name="split_method_combo_box"/>
+          </item>
+          <item row="2" column="2">
+           <widget class="QLabel" name="split_method_label">
+            <property name="text">
+             <string>Split method</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="4" alignment="Qt::AlignLeft">
+           <widget class="QLabel" name="basic_translation_label">
+            <property name="text">
+             <string>Basic translation</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -126,9 +133,9 @@
          <property name="geometry">
           <rect>
            <x>8</x>
-           <y>464</y>
+           <y>633</y>
            <width>491</width>
-           <height>294</height>
+           <height>161</height>
           </rect>
          </property>
         </widget>
@@ -136,12 +143,12 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>785</y>
+           <y>810</y>
            <width>487</width>
            <height>58</height>
           </rect>
          </property>
-         <layout class="QGridLayout" name="gridLayout_2">
+         <layout class="QGridLayout" name="selected_text_grid_layout">
           <item row="2" column="0">
            <widget class="QLineEdit" name="selected_text_line_edit">
             <property name="maximumSize">
@@ -155,7 +162,7 @@
           <item row="1" column="0">
            <widget class="QLabel" name="selected_text_label">
             <property name="text">
-             <string>Selected text</string>
+             <string>Selected text for translation</string>
             </property>
            </widget>
           </item>
@@ -183,7 +190,7 @@
            <height>58</height>
           </rect>
          </property>
-         <layout class="QGridLayout" name="gridLayout_3">
+         <layout class="QGridLayout" name="translated_text_grid_layout">
           <item row="2" column="1">
            <widget class="QPushButton" name="preview_text_button">
             <property name="maximumSize">
@@ -250,19 +257,6 @@
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
-        <widget class="Line" name="line_2">
-         <property name="geometry">
-          <rect>
-           <x>-11</x>
-           <y>440</y>
-           <width>521</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
         <widget class="Line" name="line_3">
          <property name="geometry">
           <rect>
@@ -285,7 +279,7 @@
            <height>54</height>
           </rect>
          </property>
-         <layout class="QGridLayout" name="gridLayout_4">
+         <layout class="QGridLayout" name="from_to_language">
           <item row="1" column="0" alignment="Qt::AlignHCenter">
            <widget class="QComboBox" name="source_language_combo_box">
             <property name="maximumSize">
@@ -324,14 +318,14 @@
            </widget>
           </item>
           <item row="0" column="0" alignment="Qt::AlignHCenter">
-           <widget class="QLabel" name="label_4">
+           <widget class="QLabel" name="from_language">
             <property name="text">
              <string>From</string>
             </property>
            </widget>
           </item>
           <item row="0" column="2" alignment="Qt::AlignHCenter">
-           <widget class="QLabel" name="label_5">
+           <widget class="QLabel" name="to_lagnuage">
             <property name="text">
              <string>To</string>
             </property>
@@ -363,14 +357,14 @@
          </property>
          <layout class="QVBoxLayout" name="text_output_layout">
           <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-           <widget class="QLabel" name="label">
+           <widget class="QLabel" name="text_preview_label">
             <property name="text">
              <string>Text preview</string>
             </property>
            </widget>
           </item>
           <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-           <widget class="QLabel" name="label_2">
+           <widget class="QLabel" name="logger_label">
             <property name="text">
              <string>Logger</string>
             </property>
@@ -393,11 +387,11 @@
           <rect>
            <x>8</x>
            <y>211</y>
-           <width>190</width>
-           <height>54</height>
+           <width>351</width>
+           <height>61</height>
           </rect>
          </property>
-         <layout class="QGridLayout" name="gridLayout_6">
+         <layout class="QGridLayout" name="kw_extraction_grid_layout">
           <item row="1" column="0" alignment="Qt::AlignHCenter">
            <widget class="QLabel" name="key_word_extr_label">
             <property name="maximumSize">
@@ -421,13 +415,23 @@
             </property>
            </widget>
           </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="kw_translator_combo_box"/>
+          </item>
+          <item row="1" column="1" alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="translator_label">
+            <property name="text">
+             <string>Translator</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
         <widget class="Line" name="line_4">
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>761</y>
+           <y>798</y>
            <width>511</width>
            <height>21</height>
           </rect>
@@ -442,7 +446,7 @@
            <x>8</x>
            <y>290</y>
            <width>491</width>
-           <height>141</height>
+           <height>331</height>
           </rect>
          </property>
          <property name="currentIndex">
@@ -456,7 +460,7 @@
            <property name="geometry">
             <rect>
              <x>10</x>
-             <y>10</y>
+             <y>24</y>
              <width>330</width>
              <height>28</height>
             </rect>
@@ -510,13 +514,253 @@
            <property name="geometry">
             <rect>
              <x>390</x>
-             <y>10</y>
-             <width>84</width>
-             <height>32</height>
+             <y>35</y>
+             <width>71</width>
+             <height>26</height>
             </rect>
            </property>
            <property name="text">
-            <string>Confirm</string>
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../images/check_mark.png</normaloff>../images/check_mark.png</iconset>
+           </property>
+          </widget>
+          <widget class="QSlider" name="batch_size_slider">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>90</y>
+             <width>141</width>
+             <height>28</height>
+            </rect>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>512</width>
+             <height>80</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>16</number>
+           </property>
+           <property name="maximum">
+            <number>4160</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksBelow</enum>
+           </property>
+           <property name="tickInterval">
+            <number>512</number>
+           </property>
+          </widget>
+          <widget class="QWidget" name="horizontalLayoutWidget_2">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>60</y>
+             <width>138</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="batch_size_h_layout">
+            <item>
+             <widget class="QLabel" name="batch_size_label">
+              <property name="text">
+               <string>Batch size:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="batch_size_value_label">
+              <property name="text">
+               <string>16</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QComboBox" name="cefr_spacy_model_combo_box">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>209</y>
+             <width>191</width>
+             <height>28</height>
+            </rect>
+           </property>
+          </widget>
+          <widget class="QSlider" name="nlp_max_size_slider">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>150</y>
+             <width>141</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="minimum">
+            <number>1000000</number>
+           </property>
+           <property name="maximum">
+            <number>2000000</number>
+           </property>
+           <property name="singleStep">
+            <number>100000</number>
+           </property>
+           <property name="pageStep">
+            <number>100000</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksBelow</enum>
+           </property>
+           <property name="tickInterval">
+            <number>200000</number>
+           </property>
+          </widget>
+          <widget class="QWidget" name="horizontalLayoutWidget_3">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>120</y>
+             <width>195</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="spacy_doc_sz_h_layout">
+            <item>
+             <widget class="QLabel" name="spacy_doc_label">
+              <property name="text">
+               <string>Spacy doc max size:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="spacy_doc_sz_value_label">
+              <property name="text">
+               <string>1000000</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QPushButton" name="cefr_efllex_info_button">
+           <property name="geometry">
+            <rect>
+             <x>390</x>
+             <y>135</y>
+             <width>71</width>
+             <height>26</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../images/info.png</normaloff>../images/info.png</iconset>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="cefr_efllex_default_button">
+           <property name="geometry">
+            <rect>
+             <x>390</x>
+             <y>233</y>
+             <width>71</width>
+             <height>26</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../images/change_icon.png</normaloff>../images/change_icon.png</iconset>
+           </property>
+          </widget>
+          <widget class="Line" name="separator_1">
+           <property name="geometry">
+            <rect>
+             <x>350</x>
+             <y>-10</y>
+             <width>31</width>
+             <height>311</height>
+            </rect>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+          <widget class="QLabel" name="spacy_model_label">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>180</y>
+             <width>91</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Spacy model</string>
+           </property>
+          </widget>
+          <widget class="Line" name="separator_2">
+           <property name="geometry">
+            <rect>
+             <x>365</x>
+             <y>190</y>
+             <width>141</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+          <widget class="Line" name="separator_3">
+           <property name="geometry">
+            <rect>
+             <x>365</x>
+             <y>90</y>
+             <width>131</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+          <widget class="QLabel" name="ner_label">
+           <property name="geometry">
+            <rect>
+             <x>12</x>
+             <y>240</y>
+             <width>181</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Named entity recognition</string>
+           </property>
+          </widget>
+          <widget class="QCheckBox" name="ner_check_box">
+           <property name="geometry">
+            <rect>
+             <x>12</x>
+             <y>260</y>
+             <width>93</width>
+             <height>26</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Enable</string>
            </property>
           </widget>
          </widget>
@@ -531,17 +775,50 @@
           </attribute>
          </widget>
         </widget>
-        <widget class="Line" name="line_6">
+        <widget class="QPushButton" name="pushButton">
          <property name="geometry">
           <rect>
-           <x>-10</x>
-           <y>858</y>
-           <width>521</width>
-           <height>21</height>
+           <x>410</x>
+           <y>140</y>
+           <width>32</width>
+           <height>32</height>
           </rect>
          </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+         <property name="maximumSize">
+          <size>
+           <width>32</width>
+           <height>64</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../images/question_mark.png</normaloff>../images/question_mark.png</iconset>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="geometry">
+          <rect>
+           <x>410</x>
+           <y>239</y>
+           <width>32</width>
+           <height>32</height>
+          </rect>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>32</width>
+           <height>64</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../images/question_mark.png</normaloff>../images/question_mark.png</iconset>
          </property>
         </widget>
        </widget>

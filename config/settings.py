@@ -57,7 +57,7 @@ class Constants:
     ANY: str = "%"
     CURRENT_L_DATE: QDate = QDate(1971, 12, 1)
     CURRENT_R_DATE: QDate = QDate(2023, 4, 1)
-    SPACY_MODELS: Tuple[str] = ("en_core_web_sm", "en_core_web_md", "en_core_web_lg")
+    SPACY_MODELS: Tuple[str] = ("en_core_web_lg", "en_core_web_md", "en_core_web_sm")
     CORES: int = mp.cpu_count()
     BATCH_SIZE: int = 3
     GUTENBERG_TOP_30_BOOKS: str = "https://www.gutenberg.org/browse/scores/top#books-last30"
@@ -76,6 +76,4 @@ class Constants:
         "RAKE": "rake_tab"
     }
 
-    TEXT_BATCH_SIZE: int = 32768 # 2**15
     END_PUNCT: tuple = ("! ", "? ", ". ", "... ", "?", "!", "...", ".")
-

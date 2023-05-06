@@ -6,8 +6,8 @@ from src.translation_methods import CefrAndEfllexMethod, Translators
 
 from PyQt5 import uic, QtWidgets, QtCore, QtGui
 
-from src.forms_code.gutenberg_books_form import GutenbergBooksForm
-from src.forms_code.corpus_form import CorpusForm
+#from src.forms_code.gutenberg_books_form import GutenbergBooksForm
+#from src.forms_code.corpus_form import CorpusForm
 from src.custom_functionality import message_boxes as msg
 from src.custom_functionality.custom_widgets import SmartPlainTextEdit
 from config.settings import Path, Titles, Constants
@@ -26,8 +26,8 @@ class MainForm(main_form, main_base):
         self.preview_plain_text_edit = SmartPlainTextEdit()
         self.text_output_layout.insertWidget(1, self.preview_plain_text_edit)
 
-        self.tab_widget.addTab(GutenbergBooksForm(), Titles.GUTEBERG_BOOKS_TAB_TITLE)
-        self.tab_widget.addTab(CorpusForm(), Titles.CORPUS_SETTINGS_TAB_TITLE)
+        #self.tab_widget.addTab(GutenbergBooksForm(), Titles.GUTEBERG_BOOKS_TAB_TITLE)
+        #self.tab_widget.addTab(CorpusForm(), Titles.CORPUS_SETTINGS_TAB_TITLE)
         
         self.model = QtWidgets.QFileSystemModel()
         self.model.setRootPath(Path.USER_BOOKS.format(""))
@@ -49,6 +49,7 @@ class MainForm(main_form, main_base):
         self.split_method_combo_box.addItems(Constants.SPLIT_METHODS)
 
         self.key_word_extr_combo_box.addItems(Constants.KEY_WORD_EXTRACTION_METHODS.keys())
+        self.kw_translator_combo_box.addItems(["googletrans"])
 
         self.swap_languages_button.clicked.connect(self.swap_languages)
 
@@ -67,7 +68,17 @@ class MainForm(main_form, main_base):
         self.key_word_extr_combo_box.currentTextChanged.connect(
             self._on_key_word_extr_combo_box_value_changed
         )
-        
+
+        self.batch_size_slider.valueChanged.connect(self._on_batch_slider_value_changed)
+        self.nlp_max_size_slider.valueChanged.connect(self._on_nlp_slider_value_changed)
+        self.cefr_spacy_model_combo_box.addItems(Constants.SPACY_MODELS)
+
+
+    def _on_nlp_slider_value_changed(self, value) -> None:
+        self.spacy_doc_sz_value_label.setText(str(value))
+
+    def _on_batch_slider_value_changed(self, value) -> None:
+        self.batch_size_value_label.setText(str(value))
 
     def _on_key_word_extr_combo_box_value_changed(self, value: str) -> None:
         self.key_word_extr_tab_widget.setCurrentWidget(
@@ -77,24 +88,28 @@ class MainForm(main_form, main_base):
         )
 
     def cefr_and_efllex_button_clicked(self):
-        
-        method = CefrAndEfllexMethod()
+
         items = self.cefr_layout.count()
         levels = []
         filename = self.selected_text_line_edit.text()
+        
+        self.logger.appendPlainText("Loading translation model...")
+        QtCore.QCoreApplication.processEvents()
+        
+        method = CefrAndEfllexMethod(
+            self.cefr_spacy_model_combo_box.currentText(),
+            self.nlp_max_size_slider.value()
+        )
+
+        translators = Translators(
+           self.kw_translator_combo_box.currentText(),
+           self.source_language_combo_box.currentText(),
+           self.target_language_combo_box.currentText()
+           )
 
         if not filename:
             msg.error_message("Select a file first!")
             return
-        
-        self.logger.appendPlainText("Loading translation model...")
-        QtCore.QCoreApplication.processEvents()
-
-        translators = Translators(
-           self.translation_method_combo_box.currentText(),
-           self.source_language_combo_box.currentText(),
-           self.target_language_combo_box.currentText()
-           )
 
         self.logger.appendPlainText("Translation models have been loaded")
         QtCore.QCoreApplication.processEvents()
@@ -106,7 +121,17 @@ class MainForm(main_form, main_base):
         
         out_file_name = Path.USER_BOOKS.format(f"translated_texts/{filename.split('.')[0]}_cefr_efllex.txt")
         
-        method.translate(translators, filename, levels, out_file_name, self.logger)
+        exclude_ner = [] if self.ner_check_box.isChecked() else ["ner"]
+
+        method.translate(
+            translators, 
+            filename, 
+            levels, 
+            out_file_name, 
+            self.logger, 
+            self.batch_size_slider.value(),
+            exclude_ner
+        )
 
 
 
