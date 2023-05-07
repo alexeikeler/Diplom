@@ -53,7 +53,7 @@ class CefrAndEfllexMethod:
         text = text.replace("\n", " ").replace("\t", " ")
         
         try:
-            doc = self.nlp(text, disable=ner)
+            doc = self.nlp(text, disable=["ner"])
 
         except ValueError as ve:
             msg.error_message(repr(ve))
@@ -61,7 +61,7 @@ class CefrAndEfllexMethod:
     
         return doc
 
-    def translate(self, translators, file, levels, out_file_name, logger, batch, exclude_ner):
+    def translate(self, translators, file, levels, out_file_name, logger, batch):
         
         def process_batch(sentences, words):
 
@@ -88,7 +88,7 @@ class CefrAndEfllexMethod:
         QtCore.QCoreApplication.processEvents()
 
         # Preprocess text
-        doc = self._preprocess(file, exclude_ner)
+        doc = self._preprocess(file)
         
         if doc is None:
             logger.appendPlainText(f"Preprocessing failed due to spacy error.\n")
@@ -146,4 +146,4 @@ class CefrAndEfllexMethod:
 
 class RakeMethod:
     def __init__(self, spacy_model_type: str, nlp_max_size: int):
-        self.nlp = spacy
+        pass

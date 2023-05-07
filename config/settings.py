@@ -32,7 +32,9 @@ class Path:
     GUTENBERG_BOOKS_UI_PATH: str = "ui/qt_forms/gutenberg_books_form.ui"
     CORPUS_UI_PATH: str = "ui/qt_forms/corpus_form.ui"
     
+    CEFR_EFLLEX_TAB_PATH: str = "ui/qt_forms/cefr_efllex_tab_form.ui"
     RAKE_TAB_PATH: str = "ui/qt_forms/rake_tab_form.ui"
+
 
     DATASET_PATH: str = "texts/dataset/{0}"
     USER_BOOKS: str = "texts/user_books/{0}"

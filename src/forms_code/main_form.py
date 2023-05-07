@@ -8,9 +8,12 @@ from PyQt5 import uic, QtWidgets, QtCore, QtGui
 
 #from src.forms_code.gutenberg_books_form import GutenbergBooksForm
 #from src.forms_code.corpus_form import CorpusForm
+
 from src.forms_code.rake_tab_form import RakeTabForm
+from src.forms_code.cefr_efllex_form import CefrEfllexTabForm
+
 from src.custom_functionality import message_boxes as msg
-from src.custom_functionality.custom_widgets import SmartPlainTextEdit
+#from src.custom_functionality.custom_widgets import SmartPlainTextEdit
 from config.settings import Path, Titles, Constants
 
 
@@ -23,30 +26,47 @@ class MainForm(main_form, main_base):
 
         super(main_base, self).__init__()
         self.setupUi(self)
-        
+
+        # Add other tabs to main form
+        #self.tab_widget.addTab(GutenbergBooksForm(), Titles.GUTEBERG_BOOKS_TAB_TITLE)
+        #self.tab_widget.addTab(CorpusForm(), Titles.CORPUS_SETTINGS_TAB_TITLE)
+
+        # Add other tabs to key-word extraction methods
+        # and connect their buttons
+
+        self.key_word_extr_tab_widget.clear()
+
+        # CEFR AND EFLLEX tab
+        self.cefr_efllex_tab = CefrEfllexTabForm()
+        self.cefr_efllex_tab.apply_cefr_efllex_button.clicked.connect(self.apply_cefr_efllex_button_clicked)
+        self.cefr_efllex_tab.info_cefr_efllex_button.clicked.connect(self.info_cefr_efllex_button_clicked)
+        self.cefr_efllex_tab.default_cefr_efllex_button.clicked.connect(self.default_cefr_efllex_button_clicked)
+        self.key_word_extr_tab_widget.addTab(self.cefr_efllex_tab, "CEFR and EFLLEX")
+
+        # RAKE tab
         self.rake_tab = RakeTabForm()
         self.rake_tab.apply_rake_button.clicked.connect(self.apply_rake_button_clicked)
         self.rake_tab.info_rake_button.clicked.connect(self.info_rake_button_clicked)
         self.rake_tab.default_rake_button.clicked.connect(self.default_rake_button_clicked)
-        
         self.key_word_extr_tab_widget.addTab(self.rake_tab, "RAKE")
 
-        self.preview_plain_text_edit = SmartPlainTextEdit()
-        self.text_output_layout.insertWidget(1, self.preview_plain_text_edit)
 
-        #self.tab_widget.addTab(GutenbergBooksForm(), Titles.GUTEBERG_BOOKS_TAB_TITLE)
-        #self.tab_widget.addTab(CorpusForm(), Titles.CORPUS_SETTINGS_TAB_TITLE)
+
+        # Setup plain text edit
+        self.preview_plain_text_edit = QtWidgets.QPlainTextEdit()
+        self.text_output_layout.insertWidget(1, self.preview_plain_text_edit)        
         
+        # Setup file system
         self.model = QtWidgets.QFileSystemModel()
         self.model.setRootPath(Path.USER_BOOKS.format(""))
 
         self.files_tree_view.setModel(self.model)
         self.files_tree_view.setRootIndex(self.model.index(Path.USER_BOOKS.format("")))
         self.files_tree_view.setAlternatingRowColors(True)
-        self.files_tree_view.setColumnWidth(0,300)
-        
+        self.files_tree_view.setColumnWidth(0,300)        
         self.files_tree_view.doubleClicked.connect(self.show_selected_book)
 
+        # Connect widgets to handlers
         self.source_language_combo_box.addItems(Constants.LANGUAGES)
         self.source_language_combo_box.setCurrentText(Constants.LANGUAGES[0])
 
@@ -67,39 +87,43 @@ class MainForm(main_form, main_base):
             partial(self.show_info, "translation_info")
         )
 
-        #self.translate_button.clicked.connect(self.translate)
         self.preview_text_button.clicked.connect(self.preview_text)        
         self.open_text_button.clicked.connect(self.open_text_in_editor)
-        self.confirm_cerf_and_efllex_button.clicked.connect(self.cefr_and_efllex_button_clicked)
-
-        self.batch_size_slider.valueChanged.connect(self._on_batch_slider_value_changed)
-        self.nlp_max_size_slider.valueChanged.connect(self._on_nlp_slider_value_changed)
-        self.cefr_spacy_model_combo_box.addItems(Constants.SPACY_MODELS)
         
+        #self.translate_button.clicked.connect(self.translate)
+        
+        
+    def apply_cefr_efllex_button_clicked(self):
 
+        levels = self.cefr_efllex_tab.get_selected_levels()
+        model_type = self.cefr_efllex_tab.get_spacy_model()
+        nlp_max_size = self.cefr_efllex_tab.get_spacy_max_doc_size()
+        batch_size = self.cefr_efllex_tab.get_batch_size()
 
+        filename = self.selected_text_line_edit.text()                
+        if not filename:
+            msg.error_message("Select a file first!")
+            return
 
-
-
-    def _on_nlp_slider_value_changed(self, value) -> None:
-        self.spacy_doc_sz_value_label.setText(str(value))
-
-    def _on_batch_slider_value_changed(self, value) -> None:
-        self.batch_size_value_label.setText(str(value))
-
-    def cefr_and_efllex_button_clicked(self):
-
-        items = self.cefr_layout.count()
-        levels = []
-        filename = self.selected_text_line_edit.text()
+        out_file_name = Path.USER_BOOKS.format(
+            f"translated_texts/{filename.split('.')[0]}_cefr_efllex_{'_'.join(levels)}.txt"
+        )
         
         self.logger.appendPlainText("Loading translation model...")
         QtCore.QCoreApplication.processEvents()
         
-        method = CefrAndEfllexMethod(
-            self.cefr_spacy_model_combo_box.currentText(),
-            self.nlp_max_size_slider.value()
-        )
+        # print(
+        #     f"{levels=}",
+        #     f"{model_type=}",
+        #     f"{nlp_max_size=}",
+        #     f"{ner=}",
+        #     f"{batch_size=}",
+        #     f"{filename=}",
+        #     f"{out_file_name=}",
+        #     sep="\n"
+        # )
+
+        method = CefrAndEfllexMethod(model_type, nlp_max_size)
 
         translators = Translators(
            self.kw_translator_combo_box.currentText(),
@@ -107,31 +131,23 @@ class MainForm(main_form, main_base):
            self.target_language_combo_box.currentText()
            )
 
-        if not filename:
-            msg.error_message("Select a file first!")
-            return
-
-        self.logger.appendPlainText("Translation models have been loaded")
+        self.logger.appendPlainText("Translation model have been loaded")
         QtCore.QCoreApplication.processEvents()
         
-        for i in range(items):
-            widget = self.cefr_layout.itemAt(i).widget()
-            if widget.isChecked():
-                levels.append(widget.objectName())
-        
-        out_file_name = Path.USER_BOOKS.format(f"translated_texts/{filename.split('.')[0]}_cefr_efllex.txt")
-        
-        exclude_ner = [] if self.ner_check_box.isChecked() else ["ner"]
-
         method.translate(
             translators, 
             filename, 
             levels, 
             out_file_name, 
             self.logger, 
-            self.batch_size_slider.value(),
-            exclude_ner
+            batch_size,
         )
+
+    def info_cefr_efllex_button_clicked(self):
+        pass
+
+    def default_cefr_efllex_button_clicked(self):
+        pass
 
 
     def apply_rake_button_clicked(self):

@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>491</width>
+    <height>331</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QLabel" name="spacy_model_label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>202</y>
+     <width>91</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Spacy model</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>26</y>
+     <width>330</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="cefr_layout">
+    <item>
+     <widget class="QCheckBox" name="A1">
+      <property name="text">
+       <string>A1</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="A2">
+      <property name="text">
+       <string>A2</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="B1">
+      <property name="text">
+       <string>B1</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="B2">
+      <property name="text">
+       <string>B2</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="C1">
+      <property name="text">
+       <string>C1</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="C2">
+      <property name="text">
+       <string>C2</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QSlider" name="batch_size_slider">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>112</y>
+     <width>141</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>512</width>
+     <height>80</height>
+    </size>
+   </property>
+   <property name="minimum">
+    <number>16</number>
+   </property>
+   <property name="maximum">
+    <number>4160</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="tickPosition">
+    <enum>QSlider::TicksBelow</enum>
+   </property>
+   <property name="tickInterval">
+    <number>512</number>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cefr_spacy_model_combo_box">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>231</y>
+     <width>191</width>
+     <height>28</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>90</y>
+     <width>138</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="batch_size_h_layout">
+    <item>
+     <widget class="QLabel" name="batch_size_label">
+      <property name="text">
+       <string>Batch size:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="batch_size_value_label">
+      <property name="text">
+       <string>16</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QCheckBox" name="ner_check_box">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>282</y>
+     <width>93</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Enable</string>
+   </property>
+  </widget>
+  <widget class="QSlider" name="nlp_max_size_slider">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>172</y>
+     <width>141</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>1000000</number>
+   </property>
+   <property name="maximum">
+    <number>2000000</number>
+   </property>
+   <property name="singleStep">
+    <number>100000</number>
+   </property>
+   <property name="pageStep">
+    <number>100000</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="tickPosition">
+    <enum>QSlider::TicksBelow</enum>
+   </property>
+   <property name="tickInterval">
+    <number>200000</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ner_label">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>262</y>
+     <width>181</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Named entity recognition</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>142</y>
+     <width>195</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="spacy_doc_sz_h_layout">
+    <item>
+     <widget class="QLabel" name="spacy_doc_label">
+      <property name="text">
+       <string>Spacy doc max size:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="spacy_doc_sz_value_label">
+      <property name="text">
+       <string>1000000</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="Line" name="separator_1">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>-50</y>
+     <width>31</width>
+     <height>421</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>355</x>
+     <y>45</y>
+     <width>124</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Confirm</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="apply_cefr_efllex_button">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../images/check_mark.png</normaloff>../images/check_mark.png</iconset>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Info</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="info_cefr_efllex_button">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../images/info.png</normaloff>../images/info.png</iconset>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Default parametrs</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="default_cefr_efllex_button">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../images/change_icon.png</normaloff>../images/change_icon.png</iconset>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>158</x>
+     <y>0</y>
+     <width>81</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>CEFR levels</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>60</y>
+     <width>101</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Spacy settings</string>
+   </property>
+  </widget>
+  <widget class="Line" name="line">
+   <property name="geometry">
+    <rect>
+     <x>4</x>
+     <y>50</y>
+     <width>341</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_2">
+   <property name="geometry">
+    <rect>
+     <x>4</x>
+     <y>74</y>
+     <width>341</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
