@@ -9,8 +9,8 @@ Adopted from
 https://github.com/lobpcg/python_examples/blob/master/networkx_example.py
 """
 
-import networkx as nx
 import matplotlib.pyplot as plt
+import networkx as nx
 
 
 def graph_partitioning(G, plotting=True):

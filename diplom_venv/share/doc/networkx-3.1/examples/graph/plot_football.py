@@ -12,8 +12,8 @@ Requires Internet connection to download the URL
 http://www-personal.umich.edu/~mejn/netdata/football.zip
 """
 
-import urllib.request
 import io
+import urllib.request
 import zipfile
 
 import matplotlib.pyplot as plt

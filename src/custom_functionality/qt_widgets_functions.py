@@ -1,5 +1,6 @@
+from typing import Dict, Iterable
+
 from PyQt5 import QtWidgets
-from typing import Iterable, Dict
 
 
 def config_table(

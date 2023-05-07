@@ -9,9 +9,9 @@ def tfidf_metric(files) -> pd.DataFrame:
     tfidf_vectorizer = TfidfVectorizer(input="filename")
     tfidf_vector = tfidf_vectorizer.fit_transform(files)
     tfidf_dataframe = pd.DataFrame(
-        tfidf_vector.toarray(), 
-        index=files, 
-        columns=tfidf_vectorizer.get_feature_names_out()
+        tfidf_vector.toarray(),
+        index=files,
+        columns=tfidf_vectorizer.get_feature_names_out(),
     )
 
     tfidf_dataframe.loc["all_doc_freq"] = (tfidf_dataframe > 0).sum()

@@ -8,9 +8,9 @@ set are adjacent. The maximum independent set is the independent set of largest
 possible size for a given graph.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
 import networkx as nx
+import numpy as np
 from networkx.algorithms import approximation as approx
 
 G = nx.Graph(

@@ -11,8 +11,8 @@ dyads (bidirectional, unidirection and nonedges) and the letter gives
 the Orientation as Up (U), Down (D) , Cyclical (C) or Transitive (T).
 """
 
-import networkx as nx
 import matplotlib.pyplot as plt
+import networkx as nx
 
 fig, axes = plt.subplots(4, 4, figsize=(10, 10))
 triads = {

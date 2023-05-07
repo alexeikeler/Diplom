@@ -24,7 +24,6 @@ As you remove internal nodes, this effect increases.
 import matplotlib.pyplot as plt
 import networkx as nx
 
-
 options = {"node_color": "C0", "node_size": 100}
 
 G = nx.grid_2d_graph(6, 6)

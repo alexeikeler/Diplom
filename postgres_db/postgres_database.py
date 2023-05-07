@@ -1,14 +1,17 @@
-import psycopg2 as pc2
-import psycopg2.extras
 from configparser import ConfigParser
 from datetime import datetime
+
+import psycopg2 as pc2
+import psycopg2.extras
 
 from src.custom_functionality import message_boxes as msg
 from src.custom_functionality.functions import singleton
 
+
 @singleton
 class Database:
     __slots__ = ["_config_file_path", "_config_section", "_connection"]
+
     def __init__(self):
         self._config_file_path: str = "postgres_db/postgres_user.ini"
         self._config_section: str = "postgresql"
@@ -19,7 +22,7 @@ class Database:
         parser = ConfigParser()
         # read config file
         parser.read(self._config_file_path)
-        
+
         # get section, default to postgresql
         config_data = dict()
 
@@ -45,14 +48,14 @@ class Database:
             self._connection.rollback()
 
     def get_texts(
-        self, 
+        self,
         text_author: str,
         text_title: str,
         text_languages: str,
         text_subject: str,
         l_date: datetime,
         r_date: datetime,
-        lim: str
+        lim: str,
     ):
         try:
             with self._connection.cursor() as crs:
@@ -65,8 +68,8 @@ class Database:
                         text_subject,
                         l_date,
                         r_date,
-                        lim
-                    )
+                        lim,
+                    ),
                 )
 
                 result = crs.fetchall()
@@ -75,32 +78,35 @@ class Database:
         except (Exception, pc2.DatabaseError) as error:
             msg.error_message(repr(error))
             self._connection.rollback()
-        
+
     def get_cefr_level(self, word, pos, tag):
         try:
             with self._connection.cursor() as crs:
                 crs.callproc("get_cefr_level", (word, pos, tag))
                 result = crs.fetchone()
                 return result[0]
-        
-        except (Exception, pc2.DatabaseError) as error:
-            msg.error_message(repr(error))
-            self._connection.rollback()
-    
-    def get_word_frequencies(self, word, tag):
-        try:
-            with self._connection.cursor(cursor_factory=pc2.extras.RealDictCursor) as crs:
-                
-                crs.callproc("get_word_frequencies", (word, tag))
-                result = crs.fetchone()
-                return result
-        
+
         except (Exception, pc2.DatabaseError) as error:
             msg.error_message(repr(error))
             self._connection.rollback()
 
+    def get_word_frequencies(self, word, tag):
+        try:
+            with self._connection.cursor(
+                cursor_factory=pc2.extras.RealDictCursor
+            ) as crs:
+
+                crs.callproc("get_word_frequencies", (word, tag))
+                result = crs.fetchone()
+                return result
+
+        except (Exception, pc2.DatabaseError) as error:
+            msg.error_message(repr(error))
+            self._connection.rollback()
+
+
 if __name__ == "__main__":
     d1 = Database()
     d2 = Database()
-    
+
     print(d1 is d2)

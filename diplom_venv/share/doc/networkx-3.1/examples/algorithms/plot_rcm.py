@@ -9,11 +9,10 @@ The reverse Cuthill--McKee algorithm gives a sparse matrix ordering that
 reduces the matrix bandwidth.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 import networkx as nx
-
+import numpy as np
+import seaborn as sns
 
 # build low-bandwidth matrix
 G = nx.grid_2d_graph(3, 3)

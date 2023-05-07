@@ -16,9 +16,9 @@ faster. This is a limitation of our CI/CD pipeline running on a single core.
 
 Depending on your setup, you will likely observe a speedup.
 """
-from multiprocessing import Pool
-import time
 import itertools
+import time
+from multiprocessing import Pool
 
 import matplotlib.pyplot as plt
 import networkx as nx
