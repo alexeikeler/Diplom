@@ -6,16 +6,15 @@ logging.basicConfig(level=logging.WARNING)
 import numpy as np
 import spacy
 import torch
+
 from googletrans import Translator
 from PyQt5 import QtCore
 from rake_nltk import Metric, Rake
+from typing import List
 
-from config.settings import Constants, Path
+from config.settings import Path
 from postgres_db.postgres_database import Database
 from src.custom_functionality import message_boxes as msg
-
-# from argostranslate import translate as argo_translate
-
 
 
 class Translators:
@@ -62,7 +61,7 @@ class CefrAndEfllexMethod:
         self.nlp = spacy.load(spacy_model_type)
         self.nlp.max_length = nlp_max_size
 
-    def _preprocess(self, file, ner) -> str:
+    def _preprocess(self, file) -> str:
 
         with open(Path.USER_BOOKS.format(file), "r") as user_file:
             text = user_file.read()
@@ -166,57 +165,69 @@ class CefrAndEfllexMethod:
         QtCore.QCoreApplication.processEvents()
 
 
-# class RakeMethod:
-#     __slots__ = ["nlp", "rake"]
+class RakeMethod:
+    __slots__ = ["nlp", "rake"]
 
-#     def __init__(
-#         self,
-#         spacy_model_type: str,
-#         nlp_max_size: int,
-#         language: str,
-#         rake_min_words: int,
-#         rake_max_words: int,
-#         rake_ranking_method: Metric,
-#     ):
+    def __init__(
+        self,
+        spacy_model_type: str,
+        nlp_max_size: int,
+        language: str,
+        rake_min_words: int,
+        rake_max_words: int,
+        rake_ranking_method: Metric,
+    ):
         
-#         self.nlp = spacy.load(spacy_model_type)
-#         self.nlp.max_length = nlp_max_size
+        self.nlp = spacy.load(spacy_model_type)
+        self.nlp.max_length = nlp_max_size
 
-#         self.rake = Rake(
-#             language=language,
-#             min_length=rake_min_words,
-#             max_length=rake_max_words,
-#             ranking_metric=rake_ranking_method
-#         )
+        self.rake = Rake(
+            language=language,
+            min_length=rake_min_words,
+            max_length=rake_max_words,
+            ranking_metric=rake_ranking_method
+        )
 
-#     def np_key_word_translator(self):
+    def _preprocess(file) -> List[str]:
         
-#         size = len(list(doc.sents))
-#         modified_sents = np.empty(size, dtype=object)
-#         #flag = False
-#         docsz = len(list(doc.sents))
+        with open(Path.USER_BOOKS.format(file), "r") as user_file:
+            text = user_file.read()
+
+        splitted_by_tab = text.split("\n\n")
+        splitted_by_tab = list(map(lambda string: string.replace("\n", " "), splitted_by_tab))
+
+
+    def translate(file, out_file_name, logger) -> None:
+        pass
+
+    # def np_key_word_translator(self):
+        
+    #     size = len(list(doc.sents))
+    #     modified_sents = np.empty(size, dtype=object)
+    #     #flag = False
+    #     docsz = len(list(doc.sents))
                     
-#         for i, sent in enumerate(doc.sents):
-#             if i % 100 == 0:
-#                     print(f"{i}/{docsz}")
-#             rake.extract_keywords_from_text(sent.text)
+    #     for i, sent in enumerate(doc.sents):
+    #         if i % 100 == 0:
+    #                 print(f"{i}/{docsz}")
+    #         rake.extract_keywords_from_text(sent.text)
 
-#             key_phrases = rake.get_ranked_phrases()
-#             text = sent.text
+    #         key_phrases = rake.get_ranked_phrases()
+    #         text = sent.text
 
-#             for key_phrase in key_phrases:
+    #         for key_phrase in key_phrases:
                 
-#                 if regex.search(key_phrase) is not None:
-#                     continue
+    #             if regex.search(key_phrase) is not None:
+    #                 continue
                 
-#                 bounds = re.search(key_phrase, text, re.IGNORECASE)    
+    #             bounds = re.search(key_phrase, text, re.IGNORECASE)    
 
-#                 if bounds is None:
-#                     continue
+    #             if bounds is None:
+    #                 continue
                     
-#                 #tr = gt.translate(key_phrase, src="en", dest="ru").text
-#                 text = text[:bounds.end(0) + 1] + "(tr...)" + text[bounds.end(0)+1:]
+    #             #tr = gt.translate(key_phrase, src="en", dest="ru").text
+    #             text = text[:bounds.end(0) + 1] + "(tr...)" + text[bounds.end(0)+1:]
         
-#             modified_sents[i] = text
+    #         modified_sents[i] = text
         
-#         return modified_sents
+    #     return modified_sents
