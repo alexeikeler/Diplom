@@ -1,0 +1,12 @@
+beautifulsoup4==4.12.2
+googletrans==3.1.0a0
+gutenbergpy==0.3.5
+numpy==1.23.5
+pandas==1.5.3
+psycopg2==2.9.6
+psycopg2_binary==2.9.3
+PyQt5==5.15.9
+requests==2.28.1
+scikit_learn==1.2.2
+spacy==3.5.2
+torch==1.12.1

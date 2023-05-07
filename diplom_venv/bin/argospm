@@ -1,5 +1,0 @@
-#!/home/alex/Diplom/diplom_venv/bin/python3
-
-from argostranslate import argospm
-
-argospm.main()
