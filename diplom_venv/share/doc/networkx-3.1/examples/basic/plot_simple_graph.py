@@ -6,8 +6,8 @@ Simple graph
 Draw simple graph with manual layout.
 """
 
-import matplotlib.pyplot as plt
 import networkx as nx
+import matplotlib.pyplot as plt
 
 G = nx.Graph()
 G.add_edge(1, 2)

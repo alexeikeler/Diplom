@@ -10,11 +10,10 @@ where given a set of nodes, it calculates the route of the nodes
 that the traveler has to follow in order to minimize the total cost.
 """
 
-import math
-
 import matplotlib.pyplot as plt
 import networkx as nx
 import networkx.algorithms.approximation as nx_app
+import math
 
 G = nx.random_geometric_graph(20, radius=0.4, seed=3)
 pos = nx.get_node_attributes(G, "pos")

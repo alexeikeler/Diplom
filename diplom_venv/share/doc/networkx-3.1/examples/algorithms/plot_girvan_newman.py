@@ -11,9 +11,9 @@ Graph is coloured and plotted based on community detection when number
 of iterations are 1 and 4 respectively.
 """
 
-import matplotlib.pyplot as plt
 import networkx as nx
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # Load karate graph and find communities using Girvan-Newman
 G = nx.karate_club_graph()

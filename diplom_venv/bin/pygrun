@@ -1,10 +1,9 @@
 #!/home/alex/Diplom/diplom_venv/bin/python3
 __author__ = 'jszheng'
-import importlib
 import optparse
-import os
 import sys
-
+import os
+import importlib
 from antlr4 import *
 
 

@@ -10,9 +10,8 @@ Data from: https://www.inetbio.org/wormnet/downloadnetwork.php
 """
 
 from random import sample
-
-import matplotlib.pyplot as plt
 import networkx as nx
+import matplotlib.pyplot as plt
 
 # Gold standard data of positive gene functional associations
 # from https://www.inetbio.org/wormnet/downloadnetwork.php

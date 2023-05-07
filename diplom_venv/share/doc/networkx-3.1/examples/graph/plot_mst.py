@@ -11,8 +11,8 @@ function is used to compare the original graph with its MST.
 """
 
 
-import matplotlib.pyplot as plt
 import networkx as nx
+import matplotlib.pyplot as plt
 
 # Create a graph
 G = nx.Graph()

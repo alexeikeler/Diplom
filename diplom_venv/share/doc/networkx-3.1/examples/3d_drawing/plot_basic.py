@@ -7,9 +7,9 @@ A basic example of 3D Graph visualization using `mpl_toolkits.mplot_3d`.
 
 """
 
-import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
+import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 # The graph to visualize

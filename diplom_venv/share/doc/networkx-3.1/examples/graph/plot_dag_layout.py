@@ -8,8 +8,9 @@ This example combines the `topological_generations` generator with
 order.
 """
 
-import matplotlib.pyplot as plt
 import networkx as nx
+import matplotlib.pyplot as plt
+
 
 G = nx.DiGraph(
     [

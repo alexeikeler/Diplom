@@ -11,8 +11,9 @@ of nodes to produce a summary graph.  The summary graph can then be used to
 infer how nodes with different attributes values relate to other nodes in the
 graph.
 """
-import matplotlib.pyplot as plt
 import networkx as nx
+import matplotlib.pyplot as plt
+
 
 nodes = {
     "A": {"color": "Red"},
