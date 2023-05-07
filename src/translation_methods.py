@@ -23,6 +23,7 @@ class Translators:
         self._src_lang = src_lang
         self._dest_lang = dest_lang
         self._google_translator = Translator()
+        
         if tr_method == "fairseq":
             self._fairseq_model = torch.hub.load('pytorch/fairseq', 'transformer.wmt19.en-ru.single_model', tokenizer='moses', bpe='fastbpe', verbose=False)
             self._fairseq_model.cuda()
@@ -40,7 +41,7 @@ class CefrAndEfllexMethod:
     __slots__ = ["database", "nlp"]
 
     def __init__(self, spacy_model_type: str, nlp_max_size: int):
-        self.database = Database.instance()
+        self.database = Database()
         self.nlp = spacy.load(spacy_model_type)
         self.nlp.max_length = nlp_max_size
     
@@ -53,7 +54,6 @@ class CefrAndEfllexMethod:
         
         try:
             doc = self.nlp(text, disable=ner)
-            print(doc.ents)
 
         except ValueError as ve:
             msg.error_message(repr(ve))
@@ -142,3 +142,8 @@ class CefrAndEfllexMethod:
 
         logger.appendPlainText(f"{sents_size}/{sents_size} | 100% \nFinished.")
         QtCore.QCoreApplication.processEvents()
+
+
+class RakeMethod:
+    def __init__(self, spacy_model_type: str, nlp_max_size: int):
+        self.nlp = spacy

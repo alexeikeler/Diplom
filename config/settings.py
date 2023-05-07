@@ -1,6 +1,8 @@
 import multiprocessing as mp
 import glob
 
+from rake_nltk import Metric
+
 from dataclasses import dataclass
 from typing import Tuple
 from PyQt5.QtCore import QDate
@@ -29,6 +31,9 @@ class Path:
     MAIN_FORM_UI_PATH: str = "ui/qt_forms/main_form.ui"
     GUTENBERG_BOOKS_UI_PATH: str = "ui/qt_forms/gutenberg_books_form.ui"
     CORPUS_UI_PATH: str = "ui/qt_forms/corpus_form.ui"
+    
+    RAKE_TAB_PATH: str = "ui/qt_forms/rake_tab_form.ui"
+
     DATASET_PATH: str = "texts/dataset/{0}"
     USER_BOOKS: str = "texts/user_books/{0}"
 
@@ -77,3 +82,9 @@ class Constants:
     }
 
     END_PUNCT: tuple = ("! ", "? ", ". ", "... ", "?", "!", "...", ".")
+
+    RAKE_RANKING_METHODS = {
+        "Degree to frequency ratio": Metric.DEGREE_TO_FREQUENCY_RATIO,
+        "Word degree": Metric.WORD_DEGREE,
+        "Word frequency": Metric.WORD_FREQUENCY
+    }

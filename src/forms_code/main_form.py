@@ -8,6 +8,7 @@ from PyQt5 import uic, QtWidgets, QtCore, QtGui
 
 #from src.forms_code.gutenberg_books_form import GutenbergBooksForm
 #from src.forms_code.corpus_form import CorpusForm
+from src.forms_code.rake_tab_form import RakeTabForm
 from src.custom_functionality import message_boxes as msg
 from src.custom_functionality.custom_widgets import SmartPlainTextEdit
 from config.settings import Path, Titles, Constants
@@ -23,6 +24,13 @@ class MainForm(main_form, main_base):
         super(main_base, self).__init__()
         self.setupUi(self)
         
+        self.rake_tab = RakeTabForm()
+        self.rake_tab.apply_rake_button.clicked.connect(self.apply_rake_button_clicked)
+        self.rake_tab.info_rake_button.clicked.connect(self.info_rake_button_clicked)
+        self.rake_tab.default_rake_button.clicked.connect(self.default_rake_button_clicked)
+        
+        self.key_word_extr_tab_widget.addTab(self.rake_tab, "RAKE")
+
         self.preview_plain_text_edit = SmartPlainTextEdit()
         self.text_output_layout.insertWidget(1, self.preview_plain_text_edit)
 
@@ -48,7 +56,6 @@ class MainForm(main_form, main_base):
         self.translation_method_combo_box.addItems(Constants.TRANSLATION_METHODS.keys())
         self.split_method_combo_box.addItems(Constants.SPLIT_METHODS)
 
-        self.key_word_extr_combo_box.addItems(Constants.KEY_WORD_EXTRACTION_METHODS.keys())
         self.kw_translator_combo_box.addItems(["googletrans"])
 
         self.swap_languages_button.clicked.connect(self.swap_languages)
@@ -65,13 +72,13 @@ class MainForm(main_form, main_base):
         self.open_text_button.clicked.connect(self.open_text_in_editor)
         self.confirm_cerf_and_efllex_button.clicked.connect(self.cefr_and_efllex_button_clicked)
 
-        self.key_word_extr_combo_box.currentTextChanged.connect(
-            self._on_key_word_extr_combo_box_value_changed
-        )
-
         self.batch_size_slider.valueChanged.connect(self._on_batch_slider_value_changed)
         self.nlp_max_size_slider.valueChanged.connect(self._on_nlp_slider_value_changed)
         self.cefr_spacy_model_combo_box.addItems(Constants.SPACY_MODELS)
+        
+
+
+
 
 
     def _on_nlp_slider_value_changed(self, value) -> None:
@@ -79,13 +86,6 @@ class MainForm(main_form, main_base):
 
     def _on_batch_slider_value_changed(self, value) -> None:
         self.batch_size_value_label.setText(str(value))
-
-    def _on_key_word_extr_combo_box_value_changed(self, value: str) -> None:
-        self.key_word_extr_tab_widget.setCurrentWidget(
-            self.key_word_extr_tab_widget.findChild(
-                QtWidgets.QWidget, Constants.KEY_WORD_EXTRACTION_METHODS.get(value)
-            )
-        )
 
     def cefr_and_efllex_button_clicked(self):
 
@@ -134,7 +134,14 @@ class MainForm(main_form, main_base):
         )
 
 
+    def apply_rake_button_clicked(self):
+        pass 
+    
+    def info_rake_button_clicked(self):
+        pass
 
+    def default_rake_button_clicked(self):
+        pass
 
 
 
