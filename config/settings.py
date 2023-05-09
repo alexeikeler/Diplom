@@ -86,7 +86,12 @@ class Constants:
     END_PUNCT: tuple = ("! ", "? ", ". ", "... ", "?", "!", "...", ".")
 
     RAKE_RANKING_METHODS = {
-        "Degree to frequency ratio": Metric.DEGREE_TO_FREQUENCY_RATIO,
+        "Deg/Freq ratio": Metric.DEGREE_TO_FREQUENCY_RATIO,
         "Word degree": Metric.WORD_DEGREE,
         "Word frequency": Metric.WORD_FREQUENCY,
+    }
+    SHORT_LANGS = {
+        "en": "english",
+        "ru": "russian",
+        "de": "german"
     }

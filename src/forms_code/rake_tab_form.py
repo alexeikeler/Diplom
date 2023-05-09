@@ -16,6 +16,7 @@ class RakeTabForm(rake_tab_form, rake_tab_base):
         # Connect sliders to handlers
         self.max_words_slider.valueChanged.connect(self._max_slider_value_changed)
         self.min_words_slider.valueChanged.connect(self._min_slider_value_changed)
+        self.rake_batch_size_slider.valueChanged.connect(self._batch_size_slider_value_changed)
 
     def _min_slider_value_changed(self, value: int) -> None:
         self.min_words_val_label.setText(str(value))
@@ -23,6 +24,9 @@ class RakeTabForm(rake_tab_form, rake_tab_base):
     def _max_slider_value_changed(self, value: int) -> None:
         self.max_words_val_label.setText(str(value))
         self.min_words_slider.setMaximum(value - 1)
+
+    def _batch_size_slider_value_changed(self, value: int) -> None:
+        self.rake_batch_size_value_label.setText(str(value))
 
     def get_max_value(self) -> int:
         return self.max_words_slider.value()
@@ -35,3 +39,6 @@ class RakeTabForm(rake_tab_form, rake_tab_base):
 
     def get_repeated_phrases(self) -> bool:
         return self.inc_rep_phrs_check_box.isChecked()
+
+    def get_batch_size(self) -> int:
+        return self.rake_batch_size_slider.value()

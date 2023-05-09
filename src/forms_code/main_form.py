@@ -7,13 +7,16 @@ from PyQt5 import QtCore, QtGui, QtWidgets, uic
 # from src.custom_functionality.custom_widgets import SmartPlainTextEdit
 from config.settings import Constants, Path, Titles
 from src.custom_functionality import message_boxes as msg
+
 from src.forms_code.cefr_efllex_form import CefrEfllexTabForm
 from src.forms_code.rake_tab_form import RakeTabForm
-from src.translation_methods import CefrAndEfllexMethod, Translators
+
+from src.translation_methods import Translators
+from src.translation_methods import CefrAndEfllexMethod
+from src.translation_methods import RakeMethod
 
 # from src.forms_code.gutenberg_books_form import GutenbergBooksForm
 # from src.forms_code.corpus_form import CorpusForm
-
 
 
 
@@ -26,7 +29,6 @@ class MainForm(main_form, main_base):
 
         super(main_base, self).__init__()
         self.setupUi(self)
-
         # Add other tabs to main form
         # self.tab_widget.addTab(GutenbergBooksForm(), Titles.GUTEBERG_BOOKS_TAB_TITLE)
         # self.tab_widget.addTab(CorpusForm(), Titles.CORPUS_SETTINGS_TAB_TITLE)
@@ -82,7 +84,7 @@ class MainForm(main_form, main_base):
         self.translation_method_combo_box.addItems(Constants.TRANSLATION_METHODS.keys())
         self.split_method_combo_box.addItems(Constants.SPLIT_METHODS)
 
-        self.kw_translator_combo_box.addItems(["googletrans"])
+        self.kw_translator_combo_box.addItems(Constants.TRANSLATION_METHODS.keys())
 
         self.swap_languages_button.clicked.connect(self.swap_languages)
 
@@ -117,17 +119,6 @@ class MainForm(main_form, main_base):
         self.logger.appendPlainText("Loading translation model...")
         QtCore.QCoreApplication.processEvents()
 
-        # print(
-        #     f"{levels=}",
-        #     f"{model_type=}",
-        #     f"{nlp_max_size=}",
-        #     f"{ner=}",
-        #     f"{batch_size=}",
-        #     f"{filename=}",
-        #     f"{out_file_name=}",
-        #     sep="\n"
-        # )
-
         method = CefrAndEfllexMethod(model_type, nlp_max_size)
 
         translators = Translators(
@@ -155,7 +146,55 @@ class MainForm(main_form, main_base):
         pass
 
     def apply_rake_button_clicked(self):
-        pass
+        
+        max_words = self.rake_tab.get_max_value()
+        min_words = self.rake_tab.get_min_value()
+        ranking_method = self.rake_tab.get_ranking_method()
+        allow_repeated_phrases = self.rake_tab.get_repeated_phrases()
+        batch_size = self.rake_tab.get_batch_size()
+
+        model_type = self.kw_translator_combo_box.currentText()
+        source_lng = self.source_language_combo_box.currentText()
+        dest_lng = self.target_language_combo_box.currentText()
+
+        filename = self.selected_text_line_edit.text()
+        if not filename:
+            msg.error_message("Select a file first!")
+            return
+
+        out_file_name = Path.USER_BOOKS.format(
+            f"translated_texts/{filename.split('.')[0]}_rake_.txt"
+        )
+
+        self.logger.appendPlainText("Loading translation model...")
+        QtCore.QCoreApplication.processEvents()
+
+        translators = Translators(
+            model_type,
+            source_lng,
+            dest_lng
+        )
+
+        self.logger.appendPlainText("Translation model have been loaded")
+        QtCore.QCoreApplication.processEvents()
+
+        method = RakeMethod(
+            filename,
+            out_file_name,
+            Constants.SHORT_LANGS.get(source_lng),
+            min_words,
+            max_words,
+            ranking_method,
+            allow_repeated_phrases  
+        )
+
+        method.translate(translators, self.logger, batch_size)
+        self.translated_text_line_edit.setText(out_file_name.split("/")[-1])
+
+
+
+
+
 
     def info_rake_button_clicked(self):
         pass
@@ -175,7 +214,10 @@ class MainForm(main_form, main_base):
 
         # TODO FIX BUG WITH PATH SO THAT THERE IS NO NEED IN ABSOLUTE PATH (os.getcwd????)
         text_file = f"/home/alex/Diplom/texts/user_books/translated_texts/{text}"
-
+        if not text_file:
+            msg.error_message("Select a translated text!")
+            return
+        
         with open(text_file, "r") as file:
             content = file.read()
 
