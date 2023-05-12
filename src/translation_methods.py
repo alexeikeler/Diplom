@@ -1,7 +1,6 @@
 import re
 import logging
 
-import numpy as np
 import spacy
 import torch
 
@@ -12,11 +11,10 @@ from googletrans import Translator
 from rake_nltk import Metric, Rake
 from typing import List
 
+import src.custom_functionality.functions as funcs
 from config.settings import Path
 from postgres_db.postgres_database import Database
 from src.custom_functionality import message_boxes as msg
-from src.custom_functionality.functions import timeit
-from src.custom_functionality.functions import singleton
 
 logging.basicConfig(level=logging.WARNING)
 
@@ -98,7 +96,19 @@ class CefrAndEfllexMethod:
 
         return doc
 
-    def translate(self, translators, file, levels, out_file_name, logger, batch):
+    def translate(
+        self, 
+        translators: Translators, 
+        file, 
+        levels, 
+        out_file_name, 
+        logger, 
+        batch
+    ) -> None:
+
+        # Clean file if exists otherwise create it
+        open(out_file_name, "w").close()
+
         def process_batch(sentences, words):
 
             translated_words = translators.translate_text(words)
@@ -111,25 +121,22 @@ class CefrAndEfllexMethod:
             sentences.clear()
             return sentences
 
+
         modified_parts = []
         words_to_translate = []
         counter = 0
-
-        # Clean file if exists otherwise create it
-        open(out_file_name, "w").close()
+        
+        # Preprocess text
+        doc = self._preprocess(file)
+        sents_size = len(list(doc.sents))
 
         logger.appendPlainText(f"Preprocessing file {file}...")
         QtCore.QCoreApplication.processEvents()
-
-        # Preprocess text
-        doc = self._preprocess(file)
 
         if doc is None:
             logger.appendPlainText(f"Preprocessing failed due to spacy error.\n")
             QtCore.QCoreApplication.processEvents()
             return
-
-        sents_size = len(list(doc.sents))
 
         logger.appendPlainText(f"Preprocessing end...\nTranslating text...")
         QtCore.QCoreApplication.processEvents()
@@ -170,14 +177,18 @@ class CefrAndEfllexMethod:
                 continue
 
             elif len(words_to_translate) > batch:
-                modified_parts = process_batch(modified_parts, words_to_translate)
-
-                # Clean buffer array
+                translated_batch = translators.process_batches(modified_parts, words_to_translate)
+                funcs.write_file(out_file_name, translated_batch, "a")
+    
+                # Clean buffer lists
+                modified_parts.clear()
                 words_to_translate.clear()
                 counter = 0
 
         if words_to_translate:
-            process_batch(modified_parts, words_to_translate)
+            translated_batch = translators.process_batches(modified_parts, words_to_translate)
+            funcs.write_file(out_file_name, translated_batch, "a")
+
 
         logger.appendPlainText(f"{sents_size}/{sents_size} | 100% \nFinished.")
         QtCore.QCoreApplication.processEvents()
@@ -221,12 +232,6 @@ class RakeMethod:
         )
 
         return splitted_by_tab
-
-
-    def _write_batch(self, batch) -> None:
-        with open(self.out_file, "a") as user_out_file:
-            user_out_file.write(batch)
-
 
     def translate(
         self, 
@@ -284,10 +289,9 @@ class RakeMethod:
                 continue 
             
             elif len(translate_list) > batch_size:
-                
                 translated_batch = translators.process_batches(modifiend_sents, translate_list)
-                self._write_batch(translated_batch)
-
+                funcs.write_file(self.out_file, translated_batch, "a")
+    
                 modifiend_sents.clear()
                 translate_list.clear()
                 counter = 0
@@ -295,7 +299,7 @@ class RakeMethod:
         
         if translate_list:
             translated_batch = translators.process_batches(modifiend_sents, translate_list)
-            self._write_batch(translated_batch)
+            funcs.write_file(self.out_file, translated_batch, "a")
 
         logger.appendPlainText(f"{size}/{size} | 100% \nFinished.")
         QtCore.QCoreApplication.processEvents()

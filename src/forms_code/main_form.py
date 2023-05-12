@@ -19,8 +19,6 @@ from src.translation_methods import RakeMethod
 # from src.forms_code.corpus_form import CorpusForm
 
 
-
-
 main_form, main_base = uic.loadUiType(uifile=Path.MAIN_FORM_UI_PATH)
 
 
@@ -115,6 +113,7 @@ class MainForm(main_form, main_base):
         out_file_name = Path.USER_BOOKS.format(
             f"translated_texts/{filename.split('.')[0]}_cefr_efllex_{'_'.join(levels)}.txt"
         )
+        out_file_name = os.path.abspath(out_file_name)
 
         self.logger.appendPlainText("Loading translation model...")
         QtCore.QCoreApplication.processEvents()
@@ -165,6 +164,7 @@ class MainForm(main_form, main_base):
         out_file_name = Path.USER_BOOKS.format(
             f"translated_texts/{filename.split('.')[0]}_rake_.txt"
         )
+        out_file_name = os.path.abspath(out_file_name)
 
         self.logger.appendPlainText("Loading translation model...")
         QtCore.QCoreApplication.processEvents()

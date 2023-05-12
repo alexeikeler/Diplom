@@ -56,3 +56,8 @@ def singleton(orig_cls):
 
     orig_cls.__new__ = __new__
     return orig_cls
+
+def write_file(file_name: str, text: str, mode: str) -> None:
+    with open(file_name, mode) as user_out_file:
+        user_out_file.write(text)
+

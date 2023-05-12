@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Frankly</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../images/login_form_book2.png</normaloff>../images/login_form_book2.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="gridLayoutWidget">
@@ -56,7 +60,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../../../.designer/images/question_mark.png</normaloff>../../../.designer/images/question_mark.png</iconset>
+              <normaloff>../../../../.designer/images/question_mark.png</normaloff>../../../../.designer/images/question_mark.png</iconset>
             </property>
            </widget>
           </item>
@@ -106,7 +110,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../../../.designer/images/question_mark.png</normaloff>../../../.designer/images/question_mark.png</iconset>
+              <normaloff>../../../../.designer/images/question_mark.png</normaloff>../../../../.designer/images/question_mark.png</iconset>
             </property>
            </widget>
           </item>
@@ -204,7 +208,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../../../.designer/images/preview_icon.png</normaloff>../../../.designer/images/preview_icon.png</iconset>
+              <normaloff>../../../../.designer/images/preview_icon.png</normaloff>../../../../.designer/images/preview_icon.png</iconset>
             </property>
            </widget>
           </item>
@@ -238,7 +242,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../../../.designer/images/open_text_icon.png</normaloff>../../../.designer/images/open_text_icon.png</iconset>
+              <normaloff>../../../../.designer/images/open_text_icon.png</normaloff>../../../../.designer/images/open_text_icon.png</iconset>
             </property>
            </widget>
           </item>
@@ -313,7 +317,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../../../.designer/images/swap.png</normaloff>../../../.designer/images/swap.png</iconset>
+              <normaloff>../../../../.designer/images/swap.png</normaloff>../../../../.designer/images/swap.png</iconset>
             </property>
            </widget>
           </item>
@@ -418,7 +422,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../../../.designer/images/question_mark.png</normaloff>../../../.designer/images/question_mark.png</iconset>
+              <normaloff>../../../../.designer/images/question_mark.png</normaloff>../../../../.designer/images/question_mark.png</iconset>
             </property>
            </widget>
           </item>
