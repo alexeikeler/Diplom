@@ -4,7 +4,7 @@ from functools import partial
 
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 
-# from src.custom_functionality.custom_widgets import SmartPlainTextEdit
+import src.custom_functionality.custom_widgets as custom_qt_widgets
 from config.settings import Constants, Path, Titles
 from src.custom_functionality import message_boxes as msg
 
@@ -59,7 +59,8 @@ class MainForm(main_form, main_base):
         self.key_word_extr_tab_widget.addTab(self.rake_tab, "RAKE")
 
         # Setup plain text edit
-        self.preview_plain_text_edit = QtWidgets.QPlainTextEdit()
+        # self.preview_plain_text_edit = QtWidgets.QPlainTextEdit()
+        self.preview_plain_text_edit = custom_qt_widgets.SmartPlainTextEdit(self.logger)
         self.text_output_layout.insertWidget(1, self.preview_plain_text_edit)
 
         # Setup file system

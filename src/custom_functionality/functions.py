@@ -9,6 +9,13 @@ from typing import FrozenSet, Iterable, List, Tuple
 from config.settings import Path
 
 
+class Singleton(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
 
 def timeit(func):
 
@@ -40,22 +47,6 @@ def get_books_and_titles(path: str = "") -> Tuple[FrozenSet[str], FrozenSet[str]
 
     return books, titles
 
-
-def singleton(orig_cls):
-    orig_new = orig_cls.__new__
-    instance = None
-
-    @wraps(orig_cls.__new__)
-    def __new__(cls, *args, **kwargs):
-
-        nonlocal instance
-
-        if instance is None:
-            instance = orig_new(cls, *args, **kwargs)
-        return instance
-
-    orig_cls.__new__ = __new__
-    return orig_cls
 
 def write_file(file_name: str, text: str, mode: str) -> None:
     with open(file_name, mode) as user_out_file:

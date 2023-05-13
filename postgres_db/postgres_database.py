@@ -5,11 +5,10 @@ import psycopg2 as pc2
 import psycopg2.extras
 
 from src.custom_functionality import message_boxes as msg
-from src.custom_functionality.functions import singleton
+from src.custom_functionality.functions import Singleton
 
 
-@singleton
-class Database:
+class _Database:
     __slots__ = ["_config_file_path", "_config_section", "_connection"]
 
     def __init__(self):
@@ -90,23 +89,17 @@ class Database:
             msg.error_message(repr(error))
             self._connection.rollback()
 
-    def get_word_frequencies(self, word, tag):
+    def get_word_frequency(self, word):
         try:
-            with self._connection.cursor(
-                cursor_factory=pc2.extras.RealDictCursor
-            ) as crs:
+            with self._connection.cursor() as crs:
 
-                crs.callproc("get_word_frequencies", (word, tag))
-                result = crs.fetchone()
+                crs.callproc("get_word_frequency", (word,))
+                result = crs.fetchall()
                 return result
 
         except (Exception, pc2.DatabaseError) as error:
             msg.error_message(repr(error))
             self._connection.rollback()
 
-
-if __name__ == "__main__":
-    d1 = Database()
-    d2 = Database()
-
-    print(d1 is d2)
+class PsqlDatabase(_Database, metaclass=Singleton):
+    pass

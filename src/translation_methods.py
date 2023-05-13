@@ -13,7 +13,7 @@ from typing import List
 
 import src.custom_functionality.functions as funcs
 from config.settings import Path
-from postgres_db.postgres_database import Database
+from postgres_db.postgres_database import PsqlDatabase
 from src.custom_functionality import message_boxes as msg
 
 logging.basicConfig(level=logging.WARNING)
@@ -76,7 +76,7 @@ class CefrAndEfllexMethod:
     __slots__ = ["database", "nlp"]
 
     def __init__(self, spacy_model_type: str, nlp_max_size: int):
-        self.database = Database()
+        self.database = PsqlDatabase()
         self.nlp = spacy.load(spacy_model_type)
         self.nlp.max_length = nlp_max_size
 
@@ -108,19 +108,6 @@ class CefrAndEfllexMethod:
 
         # Clean file if exists otherwise create it
         open(out_file_name, "w").close()
-
-        def process_batch(sentences, words):
-
-            translated_words = translators.translate_text(words)
-
-            part = "".join(sentences).format(*translated_words)
-
-            with open(out_file_name, "a") as out_file:
-                out_file.write(part)
-
-            sentences.clear()
-            return sentences
-
 
         modified_parts = []
         words_to_translate = []
