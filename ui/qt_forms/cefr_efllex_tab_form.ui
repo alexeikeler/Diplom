@@ -220,10 +220,10 @@
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>355</x>
-     <y>49</y>
-     <width>124</width>
-     <height>191</height>
+     <x>371</x>
+     <y>5</y>
+     <width>91</width>
+     <height>281</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -266,7 +266,7 @@
     <item alignment="Qt::AlignHCenter">
      <widget class="QLabel" name="label_3">
       <property name="text">
-       <string>Default parametrs</string>
+       <string>Set default</string>
       </property>
      </widget>
     </item>
@@ -280,6 +280,26 @@
         <normaloff>../images/change_icon.png</normaloff>../images/change_icon.png</iconset>
       </property>
      </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>From</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QComboBox" name="src_lng_combo_box"/>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_7">
+      <property name="text">
+       <string>To</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QComboBox" name="trgt_lng_combo_box"/>
     </item>
    </layout>
   </widget>

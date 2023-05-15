@@ -92,8 +92,8 @@ class Constants:
     }
     SHORT_LANGS = {
         "en": "english",
-        "ru": "russian",
-        "de": "german"
+        "de": "german",
+        "uk": "ukrainian"
     }
 
     WORD_FREQ_COLUMNS = [

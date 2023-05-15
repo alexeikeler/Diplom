@@ -153,16 +153,6 @@
           </rect>
          </property>
          <layout class="QGridLayout" name="selected_text_grid_layout">
-          <item row="2" column="0">
-           <widget class="QLineEdit" name="selected_text_line_edit">
-            <property name="maximumSize">
-             <size>
-              <width>100000</width>
-              <height>16777215</height>
-             </size>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="0">
            <widget class="QLabel" name="selected_text_label">
             <property name="text">
@@ -170,16 +160,13 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
-           <widget class="QPushButton" name="translate_button">
+          <item row="2" column="0">
+           <widget class="QLineEdit" name="selected_text_line_edit">
             <property name="maximumSize">
              <size>
-              <width>256</width>
+              <width>100000</width>
               <height>16777215</height>
              </size>
-            </property>
-            <property name="text">
-             <string>Translate</string>
             </property>
            </widget>
           </item>
@@ -390,8 +377,8 @@
          <property name="geometry">
           <rect>
            <x>11</x>
-           <y>190</y>
-           <width>176</width>
+           <y>208</y>
+           <width>141</width>
            <height>56</height>
           </rect>
          </property>
@@ -399,9 +386,6 @@
           <property name="verticalSpacing">
            <number>4</number>
           </property>
-          <item row="2" column="0">
-           <widget class="QComboBox" name="kw_translator_combo_box"/>
-          </item>
           <item row="1" column="0" alignment="Qt::AlignHCenter">
            <widget class="QLabel" name="translator_label">
             <property name="text">
@@ -409,22 +393,8 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
-           <widget class="QPushButton" name="pushButton_2">
-            <property name="maximumSize">
-             <size>
-              <width>32</width>
-              <height>64</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>../images/question_mark.png</normaloff>../images/question_mark.png</iconset>
-            </property>
-           </widget>
+          <item row="2" column="0">
+           <widget class="QComboBox" name="kw_translator_combo_box"/>
           </item>
          </layout>
         </widget>

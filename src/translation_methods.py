@@ -58,10 +58,20 @@ class Translators:
         match self._tr_method:
             case "googletrans":
                 
+                # Fast but may brake some times due to mismatch between
+                # amount of strings
+                
                 to_string = "|".join(txt)
                 result = self.tr_model.translate(to_string, src=self._src_lang, dest=self._dest_lang)
                 return result.text.split("|")
-            
+                
+                # Slow but trustworthy
+
+                #raw_result = self.tr_model.translate(txt, src=self._src_lang, dest=self._dest_lang)
+                #result = [sub_text.text for sub_text in raw_result]
+                #return list(result)
+
+
             case "fairseq":
                 return self.tr_model.translate(txt, verbose=False)
 

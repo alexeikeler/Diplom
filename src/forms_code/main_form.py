@@ -84,7 +84,8 @@ class MainForm(main_form, main_base):
         self.translation_method_combo_box.addItems(Constants.TRANSLATION_METHODS.keys())
         self.split_method_combo_box.addItems(Constants.SPLIT_METHODS)
 
-        self.kw_translator_combo_box.addItems(Constants.TRANSLATION_METHODS.keys())
+        # self.kw_translator_combo_box.addItems(Constants.TRANSLATION_METHODS.keys())
+        self.kw_translator_combo_box.addItems(["googletrans"])
 
         self.swap_languages_button.clicked.connect(self.swap_languages)
 
@@ -106,6 +107,8 @@ class MainForm(main_form, main_base):
         model_type = self.cefr_efllex_tab.get_spacy_model()
         nlp_max_size = self.cefr_efllex_tab.get_spacy_max_doc_size()
         batch_size = self.cefr_efllex_tab.get_batch_size()
+        src_lng, trgt_lng = self.cefr_efllex_tab.get_selected_languages()
+
 
         filename = self.selected_text_line_edit.text()
         if not filename:
@@ -113,7 +116,7 @@ class MainForm(main_form, main_base):
             return
 
         out_file_name = Path.USER_BOOKS.format(
-            f"translated_texts/{filename.split('.')[0]}_cefr_efllex_{'_'.join(levels)}.txt"
+            f"translated_texts/{filename.split('.')[0]}_cefr_efllex_{'_'.join(levels)}_{src_lng}_to_{trgt_lng}.txt"
         )
         out_file_name = os.path.abspath(out_file_name)
 
@@ -124,8 +127,8 @@ class MainForm(main_form, main_base):
 
         translators = Translators(
             self.kw_translator_combo_box.currentText(),
-            self.source_language_combo_box.currentText(),
-            self.target_language_combo_box.currentText(),
+            src_lng,
+            trgt_lng
         )
 
         self.logger.appendPlainText("Translation model have been loaded")
@@ -211,15 +214,15 @@ class MainForm(main_form, main_base):
         webbrowser.open(text_file)
 
     def preview_text(self):
+
         self.preview_plain_text_edit.clear()
         text = self.translated_text_line_edit.text()
 
-        # TODO FIX BUG WITH PATH SO THAT THERE IS NO NEED IN ABSOLUTE PATH (os.getcwd????)
-        text_file = f"/home/alex/Diplom/texts/user_books/translated_texts/{text}"
-        if not text_file:
+        if not text or text is None:
             msg.error_message("Select a translated text!")
             return
-        
+
+        text_file = Path.USER_BOOKS.format(f"translated_texts/{text}")
         with open(text_file, "r") as file:
             content = file.read()
 

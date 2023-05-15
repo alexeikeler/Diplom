@@ -1,8 +1,10 @@
-from typing import List
+from typing import List, Tuple
 
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 
+from config.settings import Constants
 from config.settings import Constants, Path
+
 
 ce_form_tab, ce_tab_base = uic.loadUiType(uifile=Path.CEFR_EFLLEX_TAB_PATH)
 
@@ -14,6 +16,10 @@ class CefrEfllexTabForm(ce_form_tab, ce_tab_base):
         self.setupUi(self)
 
         self.cefr_spacy_model_combo_box.addItems(Constants.SPACY_MODELS)
+        
+        self.src_lng_combo_box.addItems(("en",))
+        self.trgt_lng_combo_box.addItems(("uk", "de"))
+        self.trgt_lng_combo_box.setCurrentText("uk")
 
         self.batch_size_slider.valueChanged.connect(self._on_batch_slider_value_changed)
         self.nlp_max_size_slider.valueChanged.connect(self._on_nlp_slider_value_changed)
@@ -23,6 +29,9 @@ class CefrEfllexTabForm(ce_form_tab, ce_tab_base):
 
     def _on_batch_slider_value_changed(self, value) -> None:
         self.batch_size_value_label.setText(str(value))
+
+    def get_selected_languages(self) -> Tuple[str, str]:
+        return (self.src_lng_combo_box.currentText(), self.trgt_lng_combo_box.currentText())
 
     def get_selected_levels(self) -> List[str]:
 
