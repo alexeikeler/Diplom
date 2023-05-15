@@ -113,16 +113,5 @@ class Constants:
         "total_ds"
     ]
 
-    SUBSET_1 = [        "A1", 
-        "A2",
-        "B1",
-        "B2",
-        "C1",
-        "total",
-]
-    SUBSET_2 = [ "A1_ds",
-        "A2_ds",
-        "B1_ds",
-        "B2_ds",
-        "C1_ds",
-        "total_ds"]
+    SUBSET_1 = ["A1", "A2", "B1", "B2", "C1", "total",]
+    SUBSET_2 = [ "A1_ds", "A2_ds", "B1_ds", "B2_ds", "C1_ds", "total_ds"]

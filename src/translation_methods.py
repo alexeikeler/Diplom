@@ -60,13 +60,14 @@ class Translators:
                 
                 # Fast but may brake some times due to mismatch between
                 # amount of strings
+
+                # Using \n instead of | fixed the issue?
                 
-                to_string = "|".join(txt)
-                result = self.tr_model.translate(to_string, src=self._src_lang, dest=self._dest_lang)
-                return result.text.split("|")
+                to_string = "\n".join(txt)
+                result = self.tr_model.translate(to_string, src=self._src_lang, dest=self._dest_lang)                
+                return result.text.split("\n")
                 
                 # Slow but trustworthy
-
                 #raw_result = self.tr_model.translate(txt, src=self._src_lang, dest=self._dest_lang)
                 #result = [sub_text.text for sub_text in raw_result]
                 #return list(result)
@@ -236,6 +237,7 @@ class RakeMethod:
         logger: QPlainTextEdit, 
         batch_size: int
     ) -> None:
+        
         processed_text = self._preprocess(self.file)
 
         translate_list = []

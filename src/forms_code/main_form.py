@@ -158,8 +158,7 @@ class MainForm(main_form, main_base):
         batch_size = self.rake_tab.get_batch_size()
 
         model_type = self.kw_translator_combo_box.currentText()
-        source_lng = self.source_language_combo_box.currentText()
-        dest_lng = self.target_language_combo_box.currentText()
+        src_lng, trgt_lng = self.rake_tab.get_selected_languages()
 
         filename = self.selected_text_line_edit.text()
         if not filename:
@@ -167,7 +166,7 @@ class MainForm(main_form, main_base):
             return
 
         out_file_name = Path.USER_BOOKS.format(
-            f"translated_texts/{filename.split('.')[0]}_rake_.txt"
+            f"translated_texts/{filename.split('.')[0]}_rake_{src_lng}_to_{trgt_lng}.txt"
         )
         out_file_name = os.path.abspath(out_file_name)
 
@@ -176,8 +175,8 @@ class MainForm(main_form, main_base):
 
         translators = Translators(
             model_type,
-            source_lng,
-            dest_lng
+            src_lng, 
+            trgt_lng
         )
 
         self.logger.appendPlainText("Translation model have been loaded")
@@ -186,7 +185,7 @@ class MainForm(main_form, main_base):
         method = RakeMethod(
             filename,
             out_file_name,
-            Constants.SHORT_LANGS.get(source_lng),
+            Constants.SHORT_LANGS.get(src_lng),
             min_words,
             max_words,
             ranking_method,

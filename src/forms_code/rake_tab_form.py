@@ -1,3 +1,4 @@
+from typing import Tuple
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 
 from config.settings import Constants, Path
@@ -12,6 +13,12 @@ class RakeTabForm(rake_tab_form, rake_tab_base):
         self.setupUi(self)
 
         self.ranking_methods_combo_box.addItems(Constants.RAKE_RANKING_METHODS)
+        self.src_lng_combo_box.addItems(Constants.SHORT_LANGS.keys())
+        self.trgt_lng_combo_box.addItems(Constants.SHORT_LANGS.keys())
+
+        self.src_lng_combo_box.setCurrentText("en")
+        self.trgt_lng_combo_box.setCurrentText("uk")
+        
 
         # Connect sliders to handlers
         self.max_words_slider.valueChanged.connect(self._max_slider_value_changed)
@@ -27,6 +34,9 @@ class RakeTabForm(rake_tab_form, rake_tab_base):
 
     def _batch_size_slider_value_changed(self, value: int) -> None:
         self.rake_batch_size_value_label.setText(str(value))
+
+    def get_selected_languages(self) -> Tuple[str, str]:
+        return (self.src_lng_combo_box.currentText(), self.trgt_lng_combo_box.currentText())
 
     def get_max_value(self) -> int:
         return self.max_words_slider.value()
