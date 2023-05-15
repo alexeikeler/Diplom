@@ -21,7 +21,7 @@ class GutenbergBooksForm(gb_form, gb_base):
         super(gb_base, self).__init__()
         self.setupUi(self)
 
-        self.db = postgres_database.Database.instance()
+        self.db = postgres_database.PsqlDatabase()
 
         self.search_by_id_button.clicked.connect(self.get_text_by_id_button_handler)
         self.search_button.clicked.connect(self.search_by_user_input)

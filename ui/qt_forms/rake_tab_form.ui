@@ -138,7 +138,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../../../../.designer/images/check_mark.png</normaloff>../../../../.designer/images/check_mark.png</iconset>
+     <normaloff>../../../../../.designer/images/check_mark.png</normaloff>../../../../../.designer/images/check_mark.png</iconset>
    </property>
   </widget>
   <widget class="QPushButton" name="info_rake_button">
@@ -155,7 +155,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../../../../.designer/images/question_mark.png</normaloff>../../../../.designer/images/question_mark.png</iconset>
+     <normaloff>../../../../../.designer/images/question_mark.png</normaloff>../../../../../.designer/images/question_mark.png</iconset>
    </property>
   </widget>
   <widget class="QPushButton" name="default_rake_button">
@@ -172,7 +172,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../../../../.designer/images/change_icon.png</normaloff>../../../../.designer/images/change_icon.png</iconset>
+     <normaloff>../../../../../.designer/images/change_icon.png</normaloff>../../../../../.designer/images/change_icon.png</iconset>
    </property>
   </widget>
   <widget class="QWidget" name="gridLayoutWidget">

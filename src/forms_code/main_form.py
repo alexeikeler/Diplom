@@ -15,8 +15,8 @@ from src.translation_methods import Translators
 from src.translation_methods import CefrAndEfllexMethod
 from src.translation_methods import RakeMethod
 
-# from src.forms_code.gutenberg_books_form import GutenbergBooksForm
-# from src.forms_code.corpus_form import CorpusForm
+from src.forms_code.gutenberg_books_form import GutenbergBooksForm
+from src.forms_code.corpus_form import CorpusForm
 
 
 main_form, main_base = uic.loadUiType(uifile=Path.MAIN_FORM_UI_PATH)
@@ -27,9 +27,10 @@ class MainForm(main_form, main_base):
 
         super(main_base, self).__init__()
         self.setupUi(self)
+        
         # Add other tabs to main form
-        # self.tab_widget.addTab(GutenbergBooksForm(), Titles.GUTEBERG_BOOKS_TAB_TITLE)
-        # self.tab_widget.addTab(CorpusForm(), Titles.CORPUS_SETTINGS_TAB_TITLE)
+        self.tab_widget.addTab(GutenbergBooksForm(), Titles.GUTEBERG_BOOKS_TAB_TITLE)
+        self.tab_widget.addTab(CorpusForm(), Titles.CORPUS_SETTINGS_TAB_TITLE)
 
         # Add other tabs to key-word extraction methods
         # and connect their buttons
