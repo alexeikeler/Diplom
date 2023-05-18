@@ -8,6 +8,7 @@ import src.custom_functionality.custom_widgets as custom_qt_widgets
 from config.settings import Constants, Path, Titles
 from src.custom_functionality import message_boxes as msg
 
+from src.forms_code.basic_translation_form import BasicTranslationTabForm
 from src.forms_code.cefr_efllex_form import CefrEfllexTabForm
 from src.forms_code.rake_tab_form import RakeTabForm
 
@@ -16,7 +17,7 @@ from src.translation_methods import CefrAndEfllexMethod
 from src.translation_methods import RakeMethod
 
 from src.forms_code.gutenberg_books_form import GutenbergBooksForm
-from src.forms_code.corpus_form import CorpusForm
+#from src.forms_code.corpus_form import CorpusForm
 
 
 main_form, main_base = uic.loadUiType(uifile=Path.MAIN_FORM_UI_PATH)
@@ -30,12 +31,26 @@ class MainForm(main_form, main_base):
         
         # Add other tabs to main form
         self.tab_widget.addTab(GutenbergBooksForm(), Titles.GUTEBERG_BOOKS_TAB_TITLE)
-        self.tab_widget.addTab(CorpusForm(), Titles.CORPUS_SETTINGS_TAB_TITLE)
+        #self.tab_widget.addTab(CorpusForm(), Titles.CORPUS_SETTINGS_TAB_TITLE)
 
         # Add other tabs to key-word extraction methods
         # and connect their buttons
 
-        self.key_word_extr_tab_widget.clear()
+        self.translation_algorithms_tab_widget.clear()
+
+        # Basic translation tab
+        self.basic_translation_tab = BasicTranslationTabForm()
+        self.basic_translation_tab.apply_basic_translation_button.clicked.connect(
+            self.apply_basic_translation_button_clicked
+        )
+        self.basic_translation_tab.info_basic_translation_button.clicked.connect(
+            self.info_basic_translation_button_clicked
+        )
+        self.basic_translation_tab.default_basic_translation_button.clicked.connect(
+            self.default_basic_translation_button_clicked
+        )
+        self.translation_algorithms_tab_widget.addTab(self.basic_translation_tab, "Basic translation")
+
 
         # CEFR AND EFLLEX tab
         self.cefr_efllex_tab = CefrEfllexTabForm()
@@ -48,7 +63,7 @@ class MainForm(main_form, main_base):
         self.cefr_efllex_tab.default_cefr_efllex_button.clicked.connect(
             self.default_cefr_efllex_button_clicked
         )
-        self.key_word_extr_tab_widget.addTab(self.cefr_efllex_tab, "CEFR and EFLLEX")
+        self.translation_algorithms_tab_widget.addTab(self.cefr_efllex_tab, "CEFR and EFLLEX")
 
         # RAKE tab
         self.rake_tab = RakeTabForm()
@@ -57,10 +72,9 @@ class MainForm(main_form, main_base):
         self.rake_tab.default_rake_button.clicked.connect(
             self.default_rake_button_clicked
         )
-        self.key_word_extr_tab_widget.addTab(self.rake_tab, "RAKE")
+        self.translation_algorithms_tab_widget.addTab(self.rake_tab, "RAKE")
 
         # Setup plain text edit
-        # self.preview_plain_text_edit = QtWidgets.QPlainTextEdit()
         self.preview_plain_text_edit = custom_qt_widgets.SmartPlainTextEdit(self.logger)
         self.text_output_layout.insertWidget(1, self.preview_plain_text_edit)
 
@@ -74,32 +88,19 @@ class MainForm(main_form, main_base):
         self.files_tree_view.setColumnWidth(0, 300)
         self.files_tree_view.doubleClicked.connect(self.show_selected_book)
 
-        # Connect widgets to handlers
-        self.source_language_combo_box.addItems(Constants.LANGUAGES)
-        self.source_language_combo_box.setCurrentText(Constants.LANGUAGES[0])
-
-        self.target_language_combo_box.addItems(Constants.LANGUAGES)
-        self.target_language_combo_box.setCurrentText(Constants.LANGUAGES[1])
-
-        self.translation_method_combo_box.addItems(Constants.TRANSLATION_METHODS.keys())
-        self.split_method_combo_box.addItems(Constants.SPLIT_METHODS)
-
-        # self.kw_translator_combo_box.addItems(Constants.TRANSLATION_METHODS.keys())
-        self.kw_translator_combo_box.addItems(["googletrans"])
-
-        self.swap_languages_button.clicked.connect(self.swap_languages)
-
-        self.translation_info_button.clicked.connect(
-            partial(self.show_info, "translation_info")
-        )
-        self.split_info_button.clicked.connect(
-            partial(self.show_info, "translation_info")
-        )
 
         self.preview_text_button.clicked.connect(self.preview_text)
         self.open_text_button.clicked.connect(self.open_text_in_editor)
 
-        # self.translate_button.clicked.connect(self.translate)
+
+    def apply_basic_translation_button_clicked(self):
+        pass
+
+    def info_basic_translation_button_clicked(self):
+        pass
+
+    def default_basic_translation_button_clicked(self):
+        pass
 
     def apply_cefr_efllex_button_clicked(self):
 
@@ -126,7 +127,7 @@ class MainForm(main_form, main_base):
         method = CefrAndEfllexMethod(model_type, nlp_max_size)
 
         translators = Translators(
-            self.kw_translator_combo_box.currentText(),
+            "googletrans",
             src_lng,
             trgt_lng
         )
@@ -156,8 +157,6 @@ class MainForm(main_form, main_base):
         ranking_method = self.rake_tab.get_ranking_method()
         allow_repeated_phrases = self.rake_tab.get_repeated_phrases()
         batch_size = self.rake_tab.get_batch_size()
-
-        model_type = self.kw_translator_combo_box.currentText()
         src_lng, trgt_lng = self.rake_tab.get_selected_languages()
 
         filename = self.selected_text_line_edit.text()
@@ -174,7 +173,7 @@ class MainForm(main_form, main_base):
         QtCore.QCoreApplication.processEvents()
 
         translators = Translators(
-            model_type,
+            "googletrans",
             src_lng, 
             trgt_lng
         )
@@ -194,11 +193,6 @@ class MainForm(main_form, main_base):
 
         method.translate(translators, self.logger, batch_size)
         self.translated_text_line_edit.setText(out_file_name.split("/")[-1])
-
-
-
-
-
 
     def info_rake_button_clicked(self):
         pass
@@ -239,13 +233,6 @@ class MainForm(main_form, main_base):
             return
 
         self.selected_text_line_edit.setText(file_name)
-
-    def swap_languages(self):
-        transtaled_lang = self.target_language_combo_box.currentText()
-        source_lang = self.source_language_combo_box.currentText()
-
-        self.source_language_combo_box.setCurrentText(transtaled_lang)
-        self.target_language_combo_box.setCurrentText(source_lang)
 
     def show_info(self, caller: str):
         if caller == "translation_info":

@@ -16,6 +16,7 @@ from config.settings import Path
 from postgres_db.postgres_database import PsqlDatabase
 from src.custom_functionality import message_boxes as msg
 
+
 logging.basicConfig(level=logging.WARNING)
 
 
@@ -218,7 +219,6 @@ class RakeMethod:
 
         self.punct_regex = re.compile('[@_!#$%^&*()<>?/\\\|}{~:[\]]') 
 
-
     def _preprocess(self, file) -> List[str]:
         
         with open(Path.USER_BOOKS.format(file), "r") as user_file:
@@ -302,3 +302,11 @@ class RakeMethod:
 
         logger.appendPlainText(f"{size}/{size} | 100% \nFinished.")
         QtCore.QCoreApplication.processEvents()
+
+
+class KeyBertMethod:
+    pass
+
+
+class ForwardTranslationMethod:
+    __slots__ = ["nlp"]

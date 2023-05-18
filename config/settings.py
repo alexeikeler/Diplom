@@ -33,6 +33,7 @@ class Path:
 
     CEFR_EFLLEX_TAB_PATH: str = "ui/qt_forms/cefr_efllex_tab_form.ui"
     RAKE_TAB_PATH: str = "ui/qt_forms/rake_tab_form.ui"
+    BASIC_TRANSLATION_TAB_PATH: str = "ui/qt_forms/basic_translation_tab.ui"
 
     DATASET_PATH: str = "texts/dataset/{0}"
     USER_BOOKS: str = "texts/user_books/{0}"
@@ -69,13 +70,12 @@ class Constants:
         "https://www.gutenberg.org/browse/scores/top#books-last30"
     )
 
-    LANGUAGES: tuple = ("en", "ru")
     TRANSLATION_METHODS = {
         "googletrans": "https://pypi.org/project/googletrans/",
         "fairseq": "https://github.com/facebookresearch/fairseq#pre-trained-models-and-examples",
     }
 
-    SPLIT_METHODS: tuple = ("by paragraph", "by sentence")
+    SPLIT_METHODS: tuple = ("paragraph", "sentence")
 
     KEY_WORD_EXTRACTION_METHODS = {
         "CEFR and EFLLex": "cefr_and_efllex_levels_tab",
