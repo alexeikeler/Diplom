@@ -15,7 +15,7 @@ class CefrEfllexTabForm(ce_form_tab, ce_tab_base):
         super(ce_tab_base, self).__init__()
         self.setupUi(self)
 
-        self.cefr_spacy_model_combo_box.addItems(Constants.SPACY_MODELS)
+        self.cefr_spacy_model_combo_box.addItems(Constants.SPACY_MODELS.get("en"))
         
         self.src_lng_combo_box.addItems(("en",))
         self.trgt_lng_combo_box.addItems(("uk", "de"))

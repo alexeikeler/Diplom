@@ -63,7 +63,15 @@ class Constants:
     ANY: str = "%"
     CURRENT_L_DATE: QDate = QDate(1971, 12, 1)
     CURRENT_R_DATE: QDate = QDate(2023, 4, 1)
-    SPACY_MODELS: Tuple[str] = ("en_core_web_lg", "en_core_web_md", "en_core_web_sm")
+    
+    
+    #SPACY_MODELS: Tuple[str] = ("en_core_web_lg", "en_core_web_md", "en_core_web_sm")
+    SPACY_MODELS = {
+        "en": ("en_core_web_lg", "en_core_web_md", "en_core_web_sm"),
+        "de": ("de_core_news_lg", "de_core_news_md", "de_core_news_sm"),
+        "uk": ("uk_core_news_lg", "uk_core_news_md", "uk_core_news_sm")
+    }
+    
     CORES: int = mp.cpu_count()
     BATCH_SIZE: int = 3
     GUTENBERG_TOP_30_BOOKS: str = (
@@ -115,3 +123,8 @@ class Constants:
 
     SUBSET_1 = ["A1", "A2", "B1", "B2", "C1", "total",]
     SUBSET_2 = [ "A1_ds", "A2_ds", "B1_ds", "B2_ds", "C1_ds", "total_ds"]
+
+    FAIRSEQ_MODELS = {
+        "de-en model": "transformer.wmt19.de-en.single_model",
+        "en-de model": "transformer.wmt19.en-de.single_model"
+    }

@@ -30,7 +30,7 @@ class Translators:
         "_google_translator",
     ]
 
-    def __init__(self, tr_method, src_lang, dest_lang) -> None:
+    def __init__(self, tr_method, src_lang, dest_lang, fairseq_model=None) -> None:
         
         self.tr_model = None        
         self._tr_method = tr_method
@@ -45,7 +45,7 @@ class Translators:
             case "fairseq":
                 self.tr_model = torch.hub.load(
                     "pytorch/fairseq",
-                    "transformer.wmt19.en-ru.single_model",
+                    fairseq_model,
                     tokenizer="moses",
                     bpe="fastbpe",
                     verbose=False,

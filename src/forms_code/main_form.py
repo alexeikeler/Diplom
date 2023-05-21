@@ -94,13 +94,28 @@ class MainForm(main_form, main_base):
 
 
     def apply_basic_translation_button_clicked(self):
-        pass
+        model_type = self.basic_translation_tab.get_spacy_model()
+        max_doc_size = self.basic_translation_tab.get_spacy_doc_size()
+        tr_method = self.basic_translation_tab.get_translation_method()
+        split_method = self.basic_translation_tab.get_translation_method()
+        languages = self.basic_translation_tab.get_selected_languages()
+        
+        if tr_method == "fairseq" and "uk" in languages:
+            msg.error_message("Current version of fairseq package doesn't support UK translation.")
+            return
+
+        
+
 
     def info_basic_translation_button_clicked(self):
         pass
 
     def default_basic_translation_button_clicked(self):
         pass
+
+
+
+
 
     def apply_cefr_efllex_button_clicked(self):
 
@@ -242,149 +257,3 @@ class MainForm(main_form, main_base):
             webbrowser.open(info_about)
         elif caller == "split_info":
             pass
-
-    # def translate(
-    #     self,
-    #  ):
-    #     print(os.getcwd())
-
-    #     translated_text = dict()
-    #     corpus_size = 0
-
-    #     filename = self.selected_text_line_edit.text()
-    #     src_lang = self.source_language_combo_box.currentText()
-    #     target_lang = self.target_language_combo_box.currentText()
-    #     translation_method = self.translation_method_combo_box.currentText()
-    #     split_method = self.split_method_combo_box.currentText()
-
-    #     if not filename:
-    #         self.logger.appendPlainText("You should select a text first!")
-    #         QtCore.QCoreApplication.processEvents()
-
-    #         return
-
-    #     self.logger.appendPlainText(f"Reading file {filename} ...")
-
-    #     try:
-    #         with open(Path.USER_BOOKS.format(filename), "r") as file:
-    #             text = file.read()
-    #     except Exception as e:
-    #         self.logger.appendPlainText(repr(e))
-    #         QtCore.QCoreApplication.processEvents()
-    #         return
-
-    #     self.logger.appendPlainText(f"Reading {filename}: OK\n")
-
-    #     # Split text according to user choise
-    #     if split_method == Constants.SPLIT_METHODS[1]: # Split by sentences using spacy lib
-
-    #         text = text.replace("\n", " ")
-    #         self.logger.appendPlainText("Loading spacy model and preprocessing text.")
-    #         QtCore.QCoreApplication.processEvents()
-
-    #         nlp = spacy.load("en_core_web_sm")
-    #         doc = nlp(text)
-    #         corpus_size = len(list(doc.sents))
-
-    #     elif split_method == Constants.SPLIT_METHODS[0]: # Split by paragraphs ((\t) ?)
-
-    #         self.logger.appendPlainText("Splitting text be paragraphs.")
-    #         QtCore.QCoreApplication.processEvents()
-
-    #         paragraphs = text.split("\t")
-    #         corpus_size = len(paragraphs)
-
-    #     #TODO find a way to avoid code duplication in math/case block
-    #     #TODO avoid lots of IF/ELSE statements in match/case block
-
-    #     match translation_method:
-
-    #         case "googletrans":
-
-    #             google_translator = Translator()
-    #             self.logger.appendPlainText(f"Translating file {filename} with googletrans...")
-    #             QtCore.QCoreApplication.processEvents()
-
-    #             if split_method == Constants.SPLIT_METHODS[0]:
-
-    #                 for i, paragraph in enumerate(paragraphs):
-    #                     self.logger.appendPlainText(f"Progress: {round(i / corpus_size * 100, 2)} %")
-    #                     QtCore.QCoreApplication.processEvents()
-
-    #                     translated_paragraph = google_translator.translate(paragraph, src=src_lang, dest=target_lang)
-    #                     translated_text[paragraph] = translated_paragraph.text
-
-    #             elif split_method == Constants.SPLIT_METHODS[1]:
-
-    #                 for i, sent in enumerate(doc.sents):
-    #                     self.logger.appendPlainText(f"Progress: {round(i / corpus_size * 100, 2)} %")
-    #                     QtCore.QCoreApplication.processEvents()
-
-    #                     translated_sent = google_translator.translate(sent.text, src=src_lang, dest=target_lang)
-    #                     translated_text[sent.text] = translated_sent.text
-
-    #         case "fairseq":
-
-    #             fairseq_model = torch.hub.load(
-    #                 'pytorch/fairseq',
-    #                 'transformer.wmt19.en-ru.single_model',
-    #                 tokenizer='moses',
-    #                 bpe='fastbpe',
-    #                 verbose=False
-    #             )
-
-    #             fairseq_model.cuda()
-
-    #             if split_method == Constants.SPLIT_METHODS[0]:
-
-    #                 for i, paragraph in enumerate(paragraphs):
-    #                     self.logger.appendPlainText(f"Progress: {round(i / corpus_size * 100, 2)} %")
-    #                     QtCore.QCoreApplication.processEvents()
-
-    #                     translated_text[paragraph] = fairseq_model.translate(paragraph, verbose=False)
-
-    #             elif split_method == Constants.SPLIT_METHODS[1]:
-
-    #                 for i, sent in enumerate(doc.sents):
-    #                     self.logger.appendPlainText(f"Progress: {round(i / corpus_size * 100, 2)} %")
-    #                     QtCore.QCoreApplication.processEvents()
-
-    #                     translated_text[sent.text] = fairseq_model.translate(sent.text, verbose=False)
-
-    #         case "argotranslate":
-
-    #             if split_method == Constants.SPLIT_METHODS[0]:
-
-    #                 for i, paragraph in enumerate(paragraphs):
-    #                     self.logger.appendPlainText(f"Progress: {round(i / corpus_size * 100, 2)} %")
-    #                     QtCore.QCoreApplication.processEvents()
-
-    #                     translated_paragraph = argo_translate.translate(paragraph, src_lang, target_lang)
-    #                     translated_text[paragraph] = translated_paragraph
-
-    #             elif split_method == Constants.SPLIT_METHODS[1]:
-
-    #                 for i, sent in enumerate(doc.sents):
-    #                     self.logger.appendPlainText(f"Progress: {round(i / corpus_size * 100, 2)} %")
-    #                     QtCore.QCoreApplication.processEvents()
-
-    #                     translated_sent = argo_translate.translate(sent.text, src_lang, target_lang)
-    #                     translated_text[sent.text] = translated_sent
-
-    #     #out_file = Path.USER_BOOKS.format(f"translated_books/{filename[:-4]}_{translation_method}.txt")
-    #     # TODO: FIX BUG WITH THE PATH ABOVE
-
-    #     out_file = f"/home/alex/Diplom/texts/user_books/translated_texts/{filename[:-4]}_{translation_method}_{split_method}.txt"
-
-    #     self.logger.appendPlainText(f"Writing {out_file}...")
-    #     QtCore.QCoreApplication.processEvents()
-
-    #     with open(out_file, "w+") as file:
-    #         for original, translated in translated_text.items():
-    #             file.write(original)
-    #             file.write("\n\n[Translated fragment start]\n\n")
-    #             file.write(translated)
-    #             file.write("\n\n[Translated fragment end]\n\n")
-
-    #     self.logger.appendPlainText(f"File {out_file}: OK")
-    #     QtCore.QCoreApplication.processEvents()

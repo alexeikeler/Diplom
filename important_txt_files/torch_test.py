@@ -38,9 +38,12 @@ def pythorch_model():
     for i in range(100):
         print(i)
         translation = model.translate(batch, verbose=False)
-        
 
 def main():
-    pythorch_model()
+    # transformer.wmt19.de-en.single_model
+    # transformer.wmt19.en-de.single_model
+
+    models = torch.hub.list('pytorch/fairseq')  # [..., 'transformer.wmt16.en-de', ... ]
+    print(*sorted(models), sep="\n")
 
 main()
