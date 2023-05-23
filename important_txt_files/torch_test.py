@@ -43,7 +43,16 @@ def main():
     # transformer.wmt19.de-en.single_model
     # transformer.wmt19.en-de.single_model
 
-    models = torch.hub.list('pytorch/fairseq')  # [..., 'transformer.wmt16.en-de', ... ]
-    print(*sorted(models), sep="\n")
+    model = torch.hub.load(
+                    "pytorch/fairseq",
+                    "transformer.wmt19.en-de.single_model",
+                    tokenizer="moses",
+                    bpe="fastbpe",
+                    verbose=False,
+                )
+    model.cuda()
+
+    text = model.translate("The book is on the table.", verbose=False)
+    print(text)
 
 main()

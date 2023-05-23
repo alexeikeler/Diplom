@@ -15,6 +15,8 @@ from src.forms_code.rake_tab_form import RakeTabForm
 from src.translation_methods import Translators
 from src.translation_methods import CefrAndEfllexMethod
 from src.translation_methods import RakeMethod
+from src.translation_methods import BasicTranslationMethod
+
 
 from src.forms_code.gutenberg_books_form import GutenbergBooksForm
 #from src.forms_code.corpus_form import CorpusForm
@@ -94,17 +96,49 @@ class MainForm(main_form, main_base):
 
 
     def apply_basic_translation_button_clicked(self):
-        model_type = self.basic_translation_tab.get_spacy_model()
+        spacy_model_type = self.basic_translation_tab.get_spacy_model()
         max_doc_size = self.basic_translation_tab.get_spacy_doc_size()
         tr_method = self.basic_translation_tab.get_translation_method()
-        split_method = self.basic_translation_tab.get_translation_method()
-        languages = self.basic_translation_tab.get_selected_languages()
+        split_method = self.basic_translation_tab.get_split_method()
+        src_lng, trgt_lng = self.basic_translation_tab.get_selected_languages()
         
-        if tr_method == "fairseq" and "uk" in languages:
+        if tr_method == "fairseq" and "uk" in (src_lng, trgt_lng):
             msg.error_message("Current version of fairseq package doesn't support UK translation.")
             return
 
-        
+        filename = self.selected_text_line_edit.text()
+        if not filename:
+            msg.error_message("Select a file first!")
+            return
+
+        out_file_name = Path.USER_BOOKS.format(
+            f"translated_texts/{filename.split('.')[0]}_basic_translation_{src_lng}_to_{trgt_lng}.txt"
+        )
+        out_file_name = os.path.abspath(out_file_name)
+
+        self.logger.appendPlainText("Loading translation model...")
+        QtCore.QCoreApplication.processEvents()
+
+        method = BasicTranslationMethod(
+            split_method,
+            spacy_model_type,
+            max_doc_size
+        )
+
+        translator = Translators(
+            tr_method,
+            src_lng,
+            trgt_lng
+        )
+
+        method.translate(
+            translator,
+            filename,
+            out_file_name,
+            self.logger
+        )
+                
+
 
 
     def info_basic_translation_button_clicked(self):

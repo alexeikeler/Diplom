@@ -2,6 +2,8 @@ import re
 import logging
 
 import spacy
+from spacy.tokens.doc import Doc
+
 import torch
 
 from PyQt5 import QtCore
@@ -76,6 +78,18 @@ class Translators:
 
             case "fairseq":
                 return self.tr_model.translate(txt, verbose=False)
+    
+    def translate_part(self, text):
+        
+        match self._tr_method:
+            
+            case "googletrans":
+                translated = self.tr_model.translate(text, src=self._src_lang, dest=self._dest_lang)
+                return translated.text
+
+            case "fairseq":
+                return self.tr_model.translate(text, verbose=False)    
+
 
     def process_batches(self, formatted_batch, translate_batch):
         tr_words = self.translate_text(translate_batch)
@@ -308,5 +322,75 @@ class KeyBertMethod:
     pass
 
 
-class ForwardTranslationMethod:
-    __slots__ = ["nlp"]
+class BasicTranslationMethod:
+
+    def __init__(self, split_method: str, spacy_model_type: str, nlp_max_size: int):
+        
+        self.split_method = split_method
+        self.nlp = None
+
+        if self.split_method == "sentence":
+            self.nlp = spacy.load(spacy_model_type)
+            self.nlp.max_length = nlp_max_size
+
+    def _read_file(self, file) -> str:
+        with open(Path.USER_BOOKS.format(file), "r") as user_file:
+            text = user_file.read()
+
+        text = text.replace("\n", " ").replace("_", "")
+        return text
+    
+    def _write_part(self, text_dict, out_file) -> None:
+        with open(out_file, "w") as user_out_file:
+            for original, translated in text_dict.items():
+                user_out_file.write(original + "\n\n")
+                user_out_file.write(translated + "\n\n")
+                 
+            
+    
+    def _preprocess_paragraphs(self, text: str) -> List[str]:
+        if re.search("\n{3,}") is not None:
+            text = re.sub("\n{3,}", "\n\n", text)
+    
+        text = text.split("\n\n")
+        return text
+
+    def _preprocess_sentences(self, text: str) -> Doc:
+
+        try:
+            doc = self.nlp(text, disable=["ner"])
+
+        except ValueError as ve:
+            msg.error_message(repr(ve))
+            return None
+
+        return doc
+
+    def translate(self, translator, file, out_file, logger):
+
+        text = self._read_file(file)
+        
+        modified_text = dict()
+
+        match self.split_method:
+
+            case "sentence":
+                logger.appendPlainText("Preprocessing text...")
+                QtCore.QCoreApplication.processEvents()
+
+                doc = self._preprocess_sentences(text)
+
+                logger.appendPlainText(f"Preprocessing end...\nTranslating text...")
+                QtCore.QCoreApplication.processEvents()
+
+                for sent in doc.sents:
+                    modified_text[sent.text] = translator.translate_part(sent.text)
+                
+                self._write_part(modified_text, out_file)
+
+                logger.appendPlainText(f"End of the translation.")
+                QtCore.QCoreApplication.processEvents()
+
+
+        
+
