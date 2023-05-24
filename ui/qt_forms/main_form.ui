@@ -75,7 +75,7 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="add_text_button">
             <property name="maximumSize">
              <size>
               <width>64</width>
