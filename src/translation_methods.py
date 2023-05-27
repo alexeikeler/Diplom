@@ -1,6 +1,5 @@
 import re
 import logging
-import sys
 
 import spacy
 from spacy.tokens.doc import Doc
@@ -81,24 +80,10 @@ class Translators:
             case "fairseq":
                 return self.tr_model.translate(txt, verbose=False)
 
-    def translate_part(self, text):
-
-        match self._tr_method:
-
-            case "googletrans":
-                translated = self.tr_model.translate(
-                    text, src=self._src_lang, dest=self._dest_lang
-                )
-                return translated.text
-
-            case "fairseq":
-                return self.tr_model.translate(text, verbose=False)
-
     def process_batches(self, formatted_batch, translate_batch):
         tr_words = self.translate_text(translate_batch)
         formatted_sentences = "".join(formatted_batch).format(*tr_words)
         return formatted_sentences
-
 
 class CefrAndEfllexMethod:
 
@@ -209,7 +194,6 @@ class CefrAndEfllexMethod:
 
         logger.appendPlainText(f"{sents_size}/{sents_size} | 100% \nFinished.")
         QtCore.QCoreApplication.processEvents()
-
 
 class RakeMethod:
     __slots__ = ["rake", "punct_regex", "file", "out_file"]
