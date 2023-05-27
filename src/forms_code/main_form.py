@@ -96,12 +96,20 @@ class MainForm(main_form, main_base):
 
 
     def apply_basic_translation_button_clicked(self):
+        
         spacy_model_type = self.basic_translation_tab.get_spacy_model()
         max_doc_size = self.basic_translation_tab.get_spacy_doc_size()
         tr_method = self.basic_translation_tab.get_translation_method()
         split_method = self.basic_translation_tab.get_split_method()
         src_lng, trgt_lng = self.basic_translation_tab.get_selected_languages()
-        
+        fairseq_model = self.basic_translation_tab.get_fairseq_model()
+        mark_original, mark_translated = self.basic_translation_tab.get_mark_options()
+
+
+        if src_lng == trgt_lng:
+            msg.error_message("You have selected two identical languages!")
+            return
+
         if tr_method == "fairseq" and "uk" in (src_lng, trgt_lng):
             msg.error_message("Current version of fairseq package doesn't support UK translation.")
             return
@@ -112,7 +120,7 @@ class MainForm(main_form, main_base):
             return
 
         out_file_name = Path.USER_BOOKS.format(
-            f"translated_texts/{filename.split('.')[0]}_basic_translation_{src_lng}_to_{trgt_lng}.txt"
+            f"translated_texts/{filename.split('.')[0]}_basic_translation_{tr_method}_{src_lng}_to_{trgt_lng}.txt"
         )
         out_file_name = os.path.abspath(out_file_name)
 
@@ -128,14 +136,17 @@ class MainForm(main_form, main_base):
         translator = Translators(
             tr_method,
             src_lng,
-            trgt_lng
+            trgt_lng,
+            fairseq_model
         )
 
         method.translate(
             translator,
             filename,
             out_file_name,
-            self.logger
+            self.logger,
+            mark_original,
+            mark_translated
         )
                 
 

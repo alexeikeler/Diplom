@@ -53,6 +53,11 @@ class BasicTranslationTabForm(bt_tab_form, bt_tab_base):
 
     def get_translation_method(self) -> str:
         return self.translation_method_combo_box.currentText()
+    
+    def get_fairseq_model(self) -> str:
+        return Constants.FAIRSEQ_MODELS.get(
+            self.fairseq_translation_model_combo_box.currentText()
+            )
 
     def get_spacy_model(self) -> str:
         return self.bt_spacy_model_combo_box.currentText()
@@ -66,3 +71,5 @@ class BasicTranslationTabForm(bt_tab_form, bt_tab_base):
     def get_selected_languages(self) -> Tuple[str, str]:
         return (self.src_lng_combo_box.currentText(), self.trgt_lng_combo_box.currentText())
 
+    def get_mark_options(self) -> Tuple[bool, bool]:
+        return (self.mark_original_text_check_box.isChecked(), self.mark_translated_text_check_box.isChecked())

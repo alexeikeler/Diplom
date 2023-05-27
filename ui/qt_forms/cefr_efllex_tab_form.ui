@@ -191,7 +191,7 @@
     <item>
      <widget class="QLabel" name="spacy_doc_label">
       <property name="text">
-       <string>Spacy doc max size:</string>
+       <string>File max size: </string>
       </property>
      </widget>
     </item>

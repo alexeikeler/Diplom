@@ -33,18 +33,18 @@ class Translators:
         "_google_translator",
     ]
 
-    def __init__(self, tr_method, src_lang, dest_lang, fairseq_model=None) -> None:
-        
-        self.tr_model = None        
+    def __init__(self, tr_method, src_lang, dest_lang, fairseq_model) -> None:
+
+        self.tr_model = None
         self._tr_method = tr_method
         self._src_lang = src_lang
         self._dest_lang = dest_lang
-       
-        #self._google_translator = None
-        #self._fairseq_model = None
+
+        # self._google_translator = None
+        # self._fairseq_model = None
 
         match tr_method:
-            
+
             case "fairseq":
                 self.tr_model = torch.hub.load(
                     "pytorch/fairseq",
@@ -54,43 +54,45 @@ class Translators:
                     verbose=False,
                 )
                 self.tr_model.cuda()
-            
+
             case "googletrans":
                 self.tr_model = Translator()
 
     def translate_text(self, txt: List[str]) -> None:
         match self._tr_method:
             case "googletrans":
-                
+
                 # Fast but may brake some times due to mismatch between
                 # amount of strings
 
                 # Using \n instead of | fixed the issue?
-                
-                to_string = "\n".join(txt)
-                result = self.tr_model.translate(to_string, src=self._src_lang, dest=self._dest_lang)                
-                return result.text.split("\n")
-                
-                # Slow but trustworthy
-                #raw_result = self.tr_model.translate(txt, src=self._src_lang, dest=self._dest_lang)
-                #result = [sub_text.text for sub_text in raw_result]
-                #return list(result)
 
+                to_string = "\n".join(txt)
+                result = self.tr_model.translate(
+                    to_string, src=self._src_lang, dest=self._dest_lang
+                )
+                return result.text.split("\n")
+
+                # Slow but trustworthy
+                # raw_result = self.tr_model.translate(txt, src=self._src_lang, dest=self._dest_lang)
+                # result = [sub_text.text for sub_text in raw_result]
+                # return list(result)
 
             case "fairseq":
                 return self.tr_model.translate(txt, verbose=False)
-    
+
     def translate_part(self, text):
-        
+
         match self._tr_method:
-            
+
             case "googletrans":
-                translated = self.tr_model.translate(text, src=self._src_lang, dest=self._dest_lang)
+                translated = self.tr_model.translate(
+                    text, src=self._src_lang, dest=self._dest_lang
+                )
                 return translated.text
 
             case "fairseq":
-                return self.tr_model.translate(text, verbose=False)    
-
+                return self.tr_model.translate(text, verbose=False)
 
     def process_batches(self, formatted_batch, translate_batch):
         tr_words = self.translate_text(translate_batch)
@@ -124,13 +126,7 @@ class CefrAndEfllexMethod:
         return doc
 
     def translate(
-        self, 
-        translators: Translators, 
-        file, 
-        levels, 
-        out_file_name, 
-        logger, 
-        batch
+        self, translators: Translators, file, levels, out_file_name, logger, batch
     ) -> None:
 
         # Clean file if exists otherwise create it
@@ -139,7 +135,7 @@ class CefrAndEfllexMethod:
         modified_parts = []
         words_to_translate = []
         counter = 0
-        
+
         # Preprocess text
         doc = self._preprocess(file)
         sents_size = len(list(doc.sents))
@@ -180,8 +176,12 @@ class CefrAndEfllexMethod:
                         # Fromat current sentence to format ""... [word - {i}] ...", wher "i" is index of translated word
                         # that will be formated with -------> str.format(*list_of_translated_words) so that
                         # there is less calls to translator
-                        text = text[: bounds.end(0) + 1] + f" [{word.text} - {{{counter}}}] " + text[bounds.end(0) + 1 :]
-                        
+                        text = (
+                            text[: bounds.end(0) + 1]
+                            + f" [{word.text} - {{{counter}}}] "
+                            + text[bounds.end(0) + 1 :]
+                        )
+
                         counter += 1
 
             text += "\n\n"
@@ -191,18 +191,21 @@ class CefrAndEfllexMethod:
                 continue
 
             elif len(words_to_translate) > batch:
-                translated_batch = translators.process_batches(modified_parts, words_to_translate)
+                translated_batch = translators.process_batches(
+                    modified_parts, words_to_translate
+                )
                 funcs.write_file(out_file_name, translated_batch, "a")
-    
+
                 # Clean buffer lists
                 modified_parts.clear()
                 words_to_translate.clear()
                 counter = 0
 
         if words_to_translate:
-            translated_batch = translators.process_batches(modified_parts, words_to_translate)
+            translated_batch = translators.process_batches(
+                modified_parts, words_to_translate
+            )
             funcs.write_file(out_file_name, translated_batch, "a")
-
 
         logger.appendPlainText(f"{sents_size}/{sents_size} | 100% \nFinished.")
         QtCore.QCoreApplication.processEvents()
@@ -219,7 +222,7 @@ class RakeMethod:
         rake_min_words: int,
         rake_max_words: int,
         rake_ranking_method: Metric,
-        allow_repeated_phrases: bool
+        allow_repeated_phrases: bool,
     ):
         self.file = file
         self.out_file = out_file
@@ -229,13 +232,13 @@ class RakeMethod:
             min_length=rake_min_words,
             max_length=rake_max_words,
             ranking_metric=rake_ranking_method,
-            include_repeated_phrases=allow_repeated_phrases
+            include_repeated_phrases=allow_repeated_phrases,
         )
 
-        self.punct_regex = re.compile('[@_!#$%^&*()<>?/\\\|}{~:[\]]') 
+        self.punct_regex = re.compile("[@_!#$%^&*()<>?/\\\|}{~:[\]]")
 
     def _preprocess(self, file) -> List[str]:
-        
+
         with open(Path.USER_BOOKS.format(file), "r") as user_file:
             text = user_file.read()
 
@@ -247,12 +250,9 @@ class RakeMethod:
         return splitted_by_tab
 
     def translate(
-        self, 
-        translators: Translators, 
-        logger: QPlainTextEdit, 
-        batch_size: int
+        self, translators: Translators, logger: QPlainTextEdit, batch_size: int
     ) -> None:
-        
+
         processed_text = self._preprocess(self.file)
 
         translate_list = []
@@ -270,7 +270,7 @@ class RakeMethod:
         QtCore.QCoreApplication.processEvents()
 
         for index, paragraph in enumerate(processed_text):
-               
+
             if index % 10 == 0:
                 logger.appendPlainText(
                     f"Progress {index} / {size} | {round(index*100/size, 2)} %"
@@ -290,45 +290,47 @@ class RakeMethod:
                 bounds = re.search(key_phrase, text, re.IGNORECASE)
                 if bounds is None:
                     continue
-                
+
                 # Translation somewhere here (if it's one thing at a time)
                 translate_list.append(key_phrase)
-                text = text[:bounds.end(0) + 1] + f" [{key_phrase} - {{{counter}}}] " + text[bounds.end(0) + 1:]
+                text = (
+                    text[: bounds.end(0) + 1]
+                    + f" [{key_phrase} - {{{counter}}}] "
+                    + text[bounds.end(0) + 1 :]
+                )
                 counter += 1
 
             text += "\n\n"
 
             if not translate_list or len(translate_list) < batch_size:
                 modifiend_sents.append(text)
-                continue 
-            
+                continue
+
             elif len(translate_list) > batch_size:
-                translated_batch = translators.process_batches(modifiend_sents, translate_list)
+                translated_batch = translators.process_batches(
+                    modifiend_sents, translate_list
+                )
                 funcs.write_file(self.out_file, translated_batch, "a")
-    
+
                 modifiend_sents.clear()
                 translate_list.clear()
                 counter = 0
 
-        
         if translate_list:
-            translated_batch = translators.process_batches(modifiend_sents, translate_list)
+            translated_batch = translators.process_batches(
+                modifiend_sents, translate_list
+            )
             funcs.write_file(self.out_file, translated_batch, "a")
 
         logger.appendPlainText(f"{size}/{size} | 100% \nFinished.")
         QtCore.QCoreApplication.processEvents()
 
-
-class KeyBertMethod:
-    pass
-
-
 class BasicTranslationMethod:
-    
+
     __slots__ = ["split_method", "nlp"]
 
     def __init__(self, split_method: str, spacy_model_type: str, nlp_max_size: int):
-        
+
         self.split_method = split_method
         self.nlp = None
 
@@ -339,25 +341,29 @@ class BasicTranslationMethod:
     def _read_file(self, file) -> str:
         with open(Path.USER_BOOKS.format(file), "r") as user_file:
             text = user_file.read()
-
-        text = text.replace("\n", " ").replace("_", "")
         return text
-    
-    def _write_part(self, text_dict, out_file) -> None:
+
+    def _write_part(self, text_dict, out_file, mark_original, mark_translated) -> None:
         with open(out_file, "a") as user_out_file:
             for original, translated in text_dict.items():
+
+                if mark_original:
+                    original = "[Original]\n" + original
+                if mark_translated:
+                    translated = "[Translated]\n" + translated
                 user_out_file.write(original + "\n\n")
                 user_out_file.write(translated + "\n\n")
-                 
+
     def _extract_paragraphs(self, text: str) -> List[str]:
-        if re.search("\n{3,}") is not None:
+
+        if re.search("\n{3,}", text) is not None:
             text = re.sub("\n{3,}", "\n\n", text)
-    
-        text = text.split("\n\n")
+
+        text = list(map(lambda string: string.replace("\n", " "), text.split("\n\n")))
         return text
 
     def _extract_sentences(self, text: str) -> Doc:
-
+        text = text.replace("_", "")
         try:
             doc = self.nlp(text, disable=["ner"])
 
@@ -367,16 +373,28 @@ class BasicTranslationMethod:
 
         return doc
 
-    def _translate_sentences(self, translator: Translators, text, out_file, logger, batch_size=32):
+    def _translate_sentences(
+        self,
+        translator: Translators,
+        text,
+        mark_original,
+        mark_translated,
+        out_file,
+        logger,
+        batch_size=32,
+    ) -> None:
 
         open(out_file, "w").close()
 
         modified_text = dict()
-        
+
         logger.appendPlainText("Preprocessing text...")
         QtCore.QCoreApplication.processEvents()
-        
+
         doc = self._extract_sentences(text)
+        if doc is None:
+            return
+
         doc_size = len(list(doc.sents))
 
         logger.appendPlainText(f"Preprocessing end...\nTranslating text...")
@@ -394,33 +412,89 @@ class BasicTranslationMethod:
             if len(modified_text.keys()) == batch_size:
                 translated = translator.translate_text(modified_text.keys())
                 modified_text = dict(zip(modified_text, translated))
-                self._write_part(modified_text, out_file)
+                self._write_part(
+                    modified_text, out_file, mark_original, mark_translated
+                )
                 modified_text.clear()
-
 
         if len(modified_text) > 0:
             translated = translator.translate_text(modified_text.keys())
             modified_text = dict(zip(modified_text, translated))
-            self._write_part(modified_text, out_file)
+            self._write_part(modified_text, out_file, mark_original, mark_translated)
             modified_text.clear()
-
 
         logger.appendPlainText(f"{doc_size}/{doc_size} | 100% \nFinished.")
         QtCore.QCoreApplication.processEvents()
 
+    def _translate_paragraphs(
+        self,
+        translator: Translators,
+        text,
+        mark_original,
+        mark_translated,
+        out_file,
+        logger,
+        batch_size=8,
+    ) -> None:
 
+        open(out_file, "w").close()
 
+        modified_text = dict()
 
+        logger.appendPlainText("Preprocessing text...")
+        QtCore.QCoreApplication.processEvents()
 
+        paragraphs = self._extract_paragraphs(text)
 
-    def translate(self, translator, file, out_file, logger):
+        size = len(paragraphs)
+
+        logger.appendPlainText(f"Preprocessing end...\nTranslating text...")
+        QtCore.QCoreApplication.processEvents()
+
+        for paragraph_n, paragraph in enumerate(paragraphs):
+            if paragraph_n % 10 == 0:
+                logger.appendPlainText(
+                    f"Progress {paragraph_n} / {size} | {round(paragraph_n*100/size, 2)} %"
+                )
+                QtCore.QCoreApplication.processEvents()
+
+            modified_text[paragraph] = None
+
+            if len(modified_text.keys()) == batch_size:
+                translated = translator.translate_text(modified_text.keys())
+                modified_text = dict(zip(modified_text, translated))
+                self._write_part(
+                    modified_text, out_file, mark_original, mark_translated
+                )
+                modified_text.clear()
+
+        if len(modified_text) > 0:
+            translated = translator.translate_text(modified_text.keys())
+            modified_text = dict(zip(modified_text, translated))
+            self._write_part(modified_text, out_file, mark_original, mark_translated)
+            modified_text.clear()
+
+        logger.appendPlainText(f"{size}/{size} | 100% \nFinished.")
+        QtCore.QCoreApplication.processEvents()
+
+    def translate(
+        self, translator, file, out_file, logger, mark_original, mark_translated
+    ):
 
         text = self._read_file(file)
+
         match self.split_method:
             case "sentence":
-                self._translate_sentences(translator, text, out_file, logger)
-                
-                
+                self._translate_sentences(
+                    translator, text, mark_original, mark_translated, out_file, logger
+                )
+            case "paragraph":
+                self._translate_paragraphs(
+                    translator, text, mark_original, mark_translated, out_file, logger
+                )
+            case _:
+                msg.error_message("Wrong split method.")
 
-        
 
+class KeyBertMethod:
+    pass
