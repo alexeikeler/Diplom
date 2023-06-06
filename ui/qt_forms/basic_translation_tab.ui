@@ -37,7 +37,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../images/check_mark.png</normaloff>../images/check_mark.png</iconset>
+        <normaloff>../../../.designer/images/check_mark.png</normaloff>../../../.designer/images/check_mark.png</iconset>
       </property>
      </widget>
     </item>
@@ -55,7 +55,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../images/info.png</normaloff>../images/info.png</iconset>
+        <normaloff>../../../.designer/images/info.png</normaloff>../../../.designer/images/info.png</iconset>
       </property>
      </widget>
     </item>
@@ -73,7 +73,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../images/change_icon.png</normaloff>../images/change_icon.png</iconset>
+        <normaloff>../../../.designer/images/change_icon.png</normaloff>../../../.designer/images/change_icon.png</iconset>
       </property>
      </widget>
     </item>

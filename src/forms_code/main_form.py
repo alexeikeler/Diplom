@@ -11,15 +11,15 @@ from src.custom_functionality import message_boxes as msg
 from src.forms_code.basic_translation_form import BasicTranslationTabForm
 from src.forms_code.cefr_efllex_form import CefrEfllexTabForm
 from src.forms_code.rake_tab_form import RakeTabForm
+from src.forms_code.key_bert_form import KeyBertTranslationForm
 
 from src.translation_methods import Translators
 from src.translation_methods import CefrAndEfllexMethod
 from src.translation_methods import RakeMethod
 from src.translation_methods import BasicTranslationMethod
-
+from src.translation_methods import KeyBertMethod
 
 from src.forms_code.gutenberg_books_form import GutenbergBooksForm
-#from src.forms_code.corpus_form import CorpusForm
 
 
 main_form, main_base = uic.loadUiType(uifile=Path.MAIN_FORM_UI_PATH)
@@ -33,12 +33,25 @@ class MainForm(main_form, main_base):
         
         # Add other tabs to main form
         self.tab_widget.addTab(GutenbergBooksForm(), Titles.GUTEBERG_BOOKS_TAB_TITLE)
-        #self.tab_widget.addTab(CorpusForm(), Titles.CORPUS_SETTINGS_TAB_TITLE)
 
         # Add other tabs to key-word extraction methods
         # and connect their buttons
 
         self.translation_algorithms_tab_widget.clear()
+
+        # Key-bert tab
+        self.key_bert_tab = KeyBertTranslationForm()
+        self.key_bert_tab.apply_key_bert_method_button.clicked.connect(
+            self.apply_key_bert_method_button_clicked
+        )
+        self.key_bert_tab.info_key_bert_method_button.clicked.connect(
+            self.info_key_bert_method_button_clicked
+        )
+        self.key_bert_tab.default_key_bert_method_button.clicked.connect(
+            self.default_key_bert_method_button_clicked
+        )
+        self.translation_algorithms_tab_widget.addTab(self.key_bert_tab, "Key-Bert")
+
 
         # Basic translation tab
         self.basic_translation_tab = BasicTranslationTabForm()
@@ -67,6 +80,7 @@ class MainForm(main_form, main_base):
         )
         self.translation_algorithms_tab_widget.addTab(self.cefr_efllex_tab, "CEFR and EFLLEX")
 
+
         # RAKE tab
         self.rake_tab = RakeTabForm()
         self.rake_tab.apply_rake_button.clicked.connect(self.apply_rake_button_clicked)
@@ -94,6 +108,78 @@ class MainForm(main_form, main_base):
         self.preview_text_button.clicked.connect(self.preview_text)
         self.open_text_button.clicked.connect(self.open_text_in_editor)
 
+    def apply_key_bert_method_button_clicked(self):
+        
+        src_lng, trgt_lng = self.key_bert_tab.get_selected_languages()
+        if src_lng == trgt_lng:
+            msg.error_message("You have selected two identical languages!")
+            return
+
+        # Key bert settings
+        ngram_range = self.key_bert_tab.get_ngram_value()
+        top_n = self.key_bert_tab.get_top_n_phrases()
+        remove_stopwords = self.key_bert_tab.remove_stop_words()
+        custom_candidates = self.key_bert_tab.get_custom_candidates()
+
+        use_mmr = self.key_bert_tab.get_mmr_check_box_state()
+        diversity = self.key_bert_tab.get_diversity_value()
+
+        use_max_sum = self.key_bert_tab.get_use_max_sum_state()
+        nr_candidates = self.key_bert_tab.get_nr_candidates()
+
+        # Spacy settings for nlp
+        spacy_model = self.key_bert_tab.get_spacy_model()        
+        nlp_max_length = self.key_bert_tab.get_nlp_max_size()
+        split_by_sentences = self.key_bert_tab.split_by_sentences()
+        sent_batch = self.key_bert_tab.sentences_batch_size()
+        split_by_paragraphs = self.key_bert_tab.split_by_paragraphs()
+        split_sign = self.key_bert_tab.paragraph_split_sign()
+
+
+        if not (split_by_sentences or split_by_paragraphs):
+            msg.error_message("Error. You need to select split method.")
+            return
+
+
+        # Text file
+        filename = self.selected_text_line_edit.text()
+
+        # Out file
+        out_file_name = Path.USER_BOOKS.format(
+            f"translated_texts/{filename.split('.')[0]}_key_bert_method_{src_lng}_to_{trgt_lng}.txt"
+        )
+        out_file_name = os.path.abspath(out_file_name)
+
+        method = KeyBertMethod(spacy_model, nlp_max_length)
+        translator = Translators("googletrans", src_lng, trgt_lng)
+
+        method.translate(
+            filename,
+            out_file_name,
+            self.logger,
+            translator,
+            None,
+            ngram_range,
+            top_n,
+            custom_candidates,
+            use_mmr,
+            diversity,
+            use_max_sum,
+            nr_candidates,
+            split_by_sentences,
+            sent_batch,
+            split_by_paragraphs,
+            split_sign
+        )
+
+
+
+
+    def default_key_bert_method_button_clicked(self):
+        pass
+
+    def info_key_bert_method_button_clicked(self):
+        pass
 
     def apply_basic_translation_button_clicked(self):
         
@@ -149,18 +235,11 @@ class MainForm(main_form, main_base):
             mark_translated
         )
                 
-
-
-
     def info_basic_translation_button_clicked(self):
         pass
 
     def default_basic_translation_button_clicked(self):
         pass
-
-
-
-
 
     def apply_cefr_efllex_button_clicked(self):
 

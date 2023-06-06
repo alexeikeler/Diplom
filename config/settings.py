@@ -34,6 +34,7 @@ class Path:
     CEFR_EFLLEX_TAB_PATH: str = "ui/qt_forms/cefr_efllex_tab_form.ui"
     RAKE_TAB_PATH: str = "ui/qt_forms/rake_tab_form.ui"
     BASIC_TRANSLATION_TAB_PATH: str = "ui/qt_forms/basic_translation_tab.ui"
+    KEY_BERT_TRANSLATION_TAB_PATH: str = "ui/qt_forms/key_bert_tab.ui"
 
     DATASET_PATH: str = "texts/dataset/{0}"
     USER_BOOKS: str = "texts/user_books/{0}"

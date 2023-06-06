@@ -1,19 +1,12 @@
-import glob
-import multiprocessing as mp
 import os
-import re
-import string
 from typing import List, Set
 
 import gutenbergpy.textget
-import numpy as np
-import pandas as pd
 import requests
-import spacy
 from bs4 import BeautifulSoup
 from PyQt5 import QtCore
 
-from config.settings import Constants, Path
+from config.settings import Constants
 from src.custom_functionality import message_boxes as msg
 
 
@@ -91,94 +84,3 @@ class BooksDownloader:
                 )
                 QtCore.QCoreApplication.processEvents()
 
-
-class TextPreprocessor:
-    def __init__(
-        self,
-        remove_punct: bool,
-        remove_non_alphabet: bool,
-        remove_stop_words: bool,
-        lemmantize: bool,
-        to_lowercase: bool,
-        model: str,
-        n_jobs: int = 1,
-    ):
-        """
-        Text preprocessing transformer includes steps:
-            -1. To lower
-            0. Remove non alphabet chrs
-            1. Punctuation removal
-            2. Stop words removal
-            3. Lemmatization
-        n_jobs - parallel jobs to run
-        """
-
-        self.remove_punct = remove_punct
-        self.remove_non_alphabet = remove_non_alphabet
-        self.remove_stop_words = remove_stop_words
-        self.lemmantize = lemmantize
-        self.to_lowercase = to_lowercase
-        self.n_jobs = n_jobs
-
-        self.nlp = spacy.load(model)
-
-    def _preprocess_part(self, part):
-        return part.apply(self._preprocess_text)
-
-    def _preprocess_text(self, text):
-
-        if len(text) > self.nlp.max_length:
-            text = text[: self.nlp.max_length]
-
-        if self.to_lowercase:
-            text = text.lower()
-
-        if self.remove_non_alphabet:
-            text = self._remove_non_alphabet(text)
-
-        doc = self.nlp(text)
-
-        if self.remove_punct:
-            text = self._remove_punct(doc)
-
-        if self.remove_stop_words:
-            text = self._remove_stop_words(text)
-
-        if self.lemmantize:
-            text = self._lemmatize(text)
-
-        return text
-
-    def _remove_non_alphabet(self, text):
-        return re.sub("[^A-Za-z]+", " ", text)
-
-    def _remove_punct(self, doc):
-        return (t for t in doc if t.text not in string.punctuation)
-
-    def _remove_stop_words(self, doc):
-        return (t for t in doc if not t.is_stop)
-
-    def _lemmatize(self, doc):
-        return " ".join(t.lemma_ for t in doc)
-
-    def transform(self, batch: pd.DataFrame):
-
-        batch_cp = batch.copy()
-
-        partitions = 1
-        cores = mp.cpu_count()
-
-        if self.n_jobs <= -1:
-            partitions = cores
-        elif self.n_jobs <= 0:
-            return batch_cp.apply(self._preprocess_text)
-        else:
-            partitions = min(self.n_jobs, cores)
-
-        data_split = np.array_split(batch_cp, partitions)
-        pool = mp.Pool(cores)
-        data = pd.concat(pool.map(self._preprocess_part, data_split))
-        pool.close()
-        pool.join()
-
-        return data

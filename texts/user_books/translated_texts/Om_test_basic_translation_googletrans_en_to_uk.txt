@@ -1,24 +1,36 @@
+[Original]
 With a clamor of bells that set the swallows soaring, the Festival of Summer came to the city Omelas, bright-towered by the sea. The ringing of the boats in harbor sparkled with flags. In the streets between houses with red roofs and painted walls, between old moss-grown  gardens and under avenues of trees, past great parks and public buildings, processions moved.
 
+[Translated]
 З гуком дзвонів, що здійняли ластівки вгору, свято Літа прийшло до міста Омелас, що височів над морем. Дзвін човнів у гавані виблискував прапорами. Вулицями між будинками з червоними дахами й пофарбованими стінами, між старими порослими мохом садами й під алеями, повз великі парки й громадські будівлі рухалися процесії.
 
+[Original]
 Some were decorous: old people in long stiff robes of mauve and gray, grave master workmen, quiet, merry women carrying their babies and chatting as they walked. In other streets the music beat faster, a shimmering of gong and tambourine, and the people went dancing, the procession was a dance. Children dodged in and out, their high calls rising like the swallows' crossing flights over the music and the singing. 
 
-Деякі були пристойними: люди похилого віку в довгих суворих лілово-сірих шатах, серйозні майстри-майстри, тихі, веселі жінки, що несли своїх немовлят і балакали на прогулянці. На інших вулицях музика заграла швидше, мерехтіння гонгу й бубна, і люди пішли в танок, процесія була танцем. Діти ухилялися туди й виходили, їхні високі крики здіймалися, як переліт ластівок над музикою та співом.
+[Translated]
+Деякі були пристойними: люди похилого віку в довгих лілово-сірих шатах, серйозні майстри-майстри, тихі, веселі жінки, що несли своїх немовлят і балакали під час прогулянки. На інших вулицях музика заграла швидше, мерехтіння гонгу й бубна, і люди пішли в танок, процесія була танцем. Діти ухилялися туди й виходили, їхні високі крики здіймалися, як переліт ластівок над музикою та співом.
 
+[Original]
 All the processions wound towards the north side of the city, where on the great water-meadow called the Green Fields boys and girls, naked in the bright air, with mud-stained feet and ankles and long, lithe arms,exercised their restive horses before the race. 
 
-Усі процесії оберталися до північної сторони міста, де на великій водній галявині, яка називалася Зелені поля, юнаки й дівчата, голі на світлому повітрі, із заплямованими брудом ногами й щиколотками й довгими, гнучкими руками, вправляли своїх неспокійних коней. перед гонкою.
+[Translated]
+Усі процесії оберталися до північної сторони міста, де на великій водній галявині, яка називалася Зелені поля, юнаки й дівчата, голі на ясному повітрі, із заплямованими брудом ногами й щиколотками й довгими, гнучкими руками, вправляли своїх неспокійних коней. перед гонкою.
 
+[Original]
 The horses wore no gear at all but a halter without bit. Their manes were braided with streamers of silver, gold, and green. They flared their nostrils and pranced and boasted to one another; they were vastly excited, the horse being the only animal who has adopted our ceremonies as his own.
 
+[Translated]
 Коні не носили спорядження взагалі, крім недоуздка без удила. Їхні гриви були обплетені срібними, золотими та зеленими стрічками. Вони роздували ніздрі, гарцювали й хвалилися один перед одним; вони були надзвичайно схвильовані, бо кінь був єдиною твариною, яка прийняла наші церемонії як свої власні.
 
+[Original]
 Far off to the north and west the mountains stood up half encircling Omelas on her bay. The air of morning was so clear that the snow still crowning the Eighteen Peaks burned with white-gold fire across the miles of sunlit air, under the dark blue of the sky. There was just enough wind to make the banners that marked the racecourse snap and flutter now and then. 
 
-Далеко на півночі та заході височіли гори, наполовину оточуючи Омелас у її затоці. Ранкове повітря було таким чистим, що сніг, який усе ще увінчував Вісімнадцять Вершин, палав біло-золотим вогнем на милях освітленого сонцем повітря під темно-синім небом. Був рівно стільки вітру, щоб прапори, які позначали іподром, час від часу тріщали й майоріли.
+[Translated]
+Далеко на півночі та заході височіли гори, наполовину оточуючи Омелас у її затоці. Ранкове повітря було таким чистим, що сніг, який усе ще увінчував Вісімнадцять Вершин, палав біло-золотим вогнем на милях освітленого сонцем повітря під темно-синім небом. Був рівно стільки вітру, щоб прапори, які позначали іподром, часом тріпотіли й майоріли.
 
+[Original]
 In the silence of the broad green meadows one could hear the music winding throughout the city streets, farther and nearer and ever approaching, a cheerful faint sweetness of the air from time to time trembled and gathered together and broke out into the great joyous clanging of the bells.
 
-У тиші широких зелених лугів було чути музику, що в’ється по міських вулицях, усе далі й ближче й усе наближаючись, весела ледь помітна солодкість повітря час від часу тремтіла, збиралася воєдино й виривалася на великий радісний дзвін. дзвони.
+[Translated]
+У тиші широких зелених лугів було чути музику, що в’ється по міських вулицях, усе далі й ближче та все наближаючись, весела слабка солодкість повітря час від часу тремтіла, збиралася воєдино й виривалася у великий радісний дзвін. дзвони.
 

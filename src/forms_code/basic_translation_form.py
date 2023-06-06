@@ -37,7 +37,6 @@ class BasicTranslationTabForm(bt_tab_form, bt_tab_base):
     def _on_src_lng_combo_box_text_changed(self, value: str) -> None:
         self.bt_spacy_model_combo_box.clear()
         self.bt_spacy_model_combo_box.addItems(Constants.SPACY_MODELS.get(value))
-        
 
     def _on_translation_method_combo_box_value_changed(self, value: str) -> None:
         match value:

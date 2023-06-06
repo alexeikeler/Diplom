@@ -1,3 +1,5 @@
+import sys
+
 import pandas as pd
 
 from nltk.stem import WordNetLemmatizer
@@ -10,7 +12,6 @@ from PyQt5.QtWidgets import QPlainTextEdit
 
 from postgres_db.postgres_database import PsqlDatabase
 from config.settings import Constants
-
 
 plt.style.use('ggplot')
 
@@ -79,3 +80,5 @@ class SmartPlainTextEdit(QPlainTextEdit):
         plt.gcf().canvas.mpl_connect('key_press_event', self._close_figure)
         plt.tight_layout()
         plt.show()
+
+

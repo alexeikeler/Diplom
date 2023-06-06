@@ -1,17 +1,19 @@
 import re
 import logging
+from typing import List, Tuple
 
 import spacy
 from spacy.tokens.doc import Doc
 
 import torch
 
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QPlainTextEdit
 
 from googletrans import Translator
 from rake_nltk import Metric, Rake
-from typing import List
+from keybert import KeyBERT
+
 
 import src.custom_functionality.functions as funcs
 from config.settings import Path
@@ -32,7 +34,7 @@ class Translators:
         "_google_translator",
     ]
 
-    def __init__(self, tr_method, src_lang, dest_lang, fairseq_model) -> None:
+    def __init__(self, tr_method, src_lang, dest_lang, fairseq_model=None) -> None:
 
         self.tr_model = None
         self._tr_method = tr_method
@@ -479,6 +481,197 @@ class BasicTranslationMethod:
             case _:
                 msg.error_message("Wrong split method.")
 
-
 class KeyBertMethod:
-    pass
+    def __init__(self, spacy_model: str, nlp_max_length: int) -> None:
+        self.nlp = spacy.load(spacy_model)
+        self.nlp.max_length = nlp_max_length
+        self.kw_model = KeyBERT(self.nlp)
+        self.phrases_batch_size = 32
+        self.punct_regex = re.compile("[@_!#$%^&*()<>?/\\\|}{~:[\]]")
+
+    def _read_text(self, file) -> str:
+        with open(Path.USER_BOOKS.format(file), "r") as user_file:
+            text = user_file.read()
+        return text
+    
+    def _split_by_paragraphs(self, text: str, split_sign: str) -> List[str]:
+        
+        if re.search("\n{3,}", text) is not None:
+            text = re.sub("\n{3,}", split_sign, text)
+
+        list_of_paragprahs = list(
+            map(lambda string: string.replace("\n", " "), text.split("\n\n"))
+        )
+        return list_of_paragprahs
+    
+    def _translate_paragraphs(
+        self,
+        logger,
+        paragraphs,
+        translator: Translators,
+        out_file_name,
+        stop_words,
+        ngram_range,
+        top_n,
+        custom_candidates,
+        to_use_mmr,
+        diversity,
+        to_use_max_sum,
+        nr_candidates
+    ) -> None:
+        
+        logger.appendPlainText("Preprocessing text...")
+        QtCore.QCoreApplication.processEvents()
+
+        counter = 0
+        translate_list = []
+        modified_sents = []
+        size = len(paragraphs)
+
+        open(out_file_name, "w").close()
+
+        logger.appendPlainText(f"Preprocessing end...\nTranslating text...")
+        QtCore.QCoreApplication.processEvents()
+
+        for p_index, paragrah in enumerate(paragraphs):
+            if p_index % 10 == 0:
+                logger.appendPlainText(
+                    f"Progress {p_index} / {size} | {round(p_index*100/size, 2)} %"
+                )
+                QtCore.QCoreApplication.processEvents()
+
+        
+            key_phrases = self.kw_model.extract_keywords(
+                paragrah,
+                keyphrase_ngram_range=ngram_range,
+                top_n=top_n,
+                stop_words=stop_words,
+                candidates=custom_candidates,
+                use_mmr=to_use_mmr,
+                diversity=diversity,
+                use_maxsum=to_use_max_sum,
+                nr_candidates=nr_candidates
+            )
+            
+            text = paragrah
+
+            for key_phrase in key_phrases:
+                if self.punct_regex.search(key_phrase[0]) is not None:
+                    continue
+
+                bounds = re.search(key_phrase[0], text, re.IGNORECASE)
+                if bounds is None:
+                    continue
+                
+                translate_list.append(key_phrase[0])
+                
+                text = (
+                    text[: bounds.end(0) + 1]
+                    + f" [{key_phrase[0]} - {{{counter}}}] "
+                    + text[bounds.end(0) + 1 :]
+                )
+                
+                counter += 1
+
+            text += "\n\n"
+
+            if not translate_list or len(translate_list) < self.phrases_batch_size:
+                modified_sents.append(text)
+                continue
+
+            elif len(translate_list) > self.phrases_batch_size:
+                translated_batch = translator.process_batches(
+                    modified_sents, translate_list
+                )
+
+                funcs.write_file(out_file_name, translated_batch, "a")
+
+                modified_sents.clear()
+                translate_list.clear()
+                counter = 0
+        
+        if translate_list:
+            translated_batch = translator.process_batches(
+                modified_sents, translate_list
+            )
+            funcs.write_file(out_file_name, translated_batch, "a")
+
+        logger.appendPlainText(f"{size}/{size} | 100% \nFinished.")
+        QtCore.QCoreApplication.processEvents()
+
+        
+
+    def _translate_sentences(
+        self,
+        logger,
+        text,
+        out_file_name,
+        stop_words,
+        ngram_range,
+        top_n,
+        custom_candidates,
+        use_mmr,
+        diversity,
+        use_max_sum,
+        nr_candidates
+    ) -> None:
+        pass
+        
+        
+
+    def translate(
+        self, 
+        user_file_name: str, 
+        out_file_name: str, 
+        logger: QtWidgets.QPlainTextEdit,
+        translator: Translators,
+        stop_words: List[str] | None,
+        ngram_range: Tuple[int, int],
+        top_n: int,
+        custom_candidates: List[str] | None,
+        use_mmr: bool,
+        diversity: float,
+        use_max_sum: bool,
+        nr_candidates: int,
+        split_by_sentnces: bool,
+        sent_batch_size: int,
+        split_by_paragraphs: bool,
+        split_sign: str
+    ) -> None:
+        
+        text = self._read_text(user_file_name)
+
+        if split_by_paragraphs:
+            paragraphs = self._split_by_paragraphs(text, split_sign)
+            
+            self._translate_paragraphs(
+                logger,
+                paragraphs,
+                translator,
+                out_file_name,
+                stop_words,
+                ngram_range,
+                top_n,
+                custom_candidates,
+                use_mmr,
+                diversity,
+                use_max_sum,
+                nr_candidates                
+            )
+
+        elif split_by_sentnces:
+            self._translate_sentences(
+                logger,
+                text,
+                out_file_name,
+                stop_words,
+                ngram_range,
+                top_n,
+                custom_candidates,
+                use_mmr,
+                diversity,
+                use_max_sum,
+                nr_candidates
+            )
+
+        
